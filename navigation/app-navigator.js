@@ -27,29 +27,29 @@ function getHeaderTitle(route) {
   }
 }
 
+const configOptions = {
+  headerStyle: {
+    backgroundColor: Colors.mainBackgroundColor,
+  },
+  headerTintColor: Colors.mainColor,
+  headerTitleStyle: {
+    fontFamily: 'roboto-bold',
+    textAlign: 'center'
+  },
+}
+
 export default function() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Покупки" component={MainScreen} 
-          options={{
-            headerStyle: {
-              backgroundColor: Colors.mainBackgroundColor,
-            },
-            headerTintColor: Colors.mainColor,
-            headerTitleStyle: {
-              fontFamily: 'roboto-bold',
-              textAlign: 'center'
-            },
-          }}
+          options={configOptions}
         />
         <Stack.Screen name="Карточка товаров" component={CardScreen} />
         <Stack.Screen
           name="CreateCard"
           component={CreateCardScreen}
-          options={({ route }) => ({
-            headerTitle: getHeaderTitle(route)
-          })}
+          options={configOptions}
         />
         <Stack.Screen name="AddProduct" component={AddProductScreen} />
       </Stack.Navigator>

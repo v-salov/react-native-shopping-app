@@ -26,15 +26,14 @@ export const MainScreen = ({ navigation }) => {
   const cards = useSelector(state => state.card.cards)
 
   const openCardHandler = card => {
-    // navigation.navigate('CreateCard', {
-    //   cardId: card.id
-    // })
+    
 
-    console.log('NAVIG-CARD',card)
   }
 
-  const onEditCard = () => {
-    navigation.navigate('CreateCard', { id: card.id })
+  const onEditCard = (card) => {
+    navigation.navigate('CreateCard', {
+      cardId: card.id
+    })
   }
 
   const onRemoveCard = () => {
@@ -99,7 +98,7 @@ export const MainScreen = ({ navigation }) => {
         </View>
       )}
       onSwipeableLeftWillOpen={onRemoveCard}
-      onSwipeableRightWillOpen={onEditCard}
+      onSwipeableRightWillOpen={()=>onEditCard(card)}
       overshootLeft={false}
       overshootRight={false}
     >
