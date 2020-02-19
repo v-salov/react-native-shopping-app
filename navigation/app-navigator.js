@@ -45,7 +45,7 @@ export default function() {
         <Stack.Screen name="Покупки" component={MainScreen} 
           options={configOptions}
         />
-        <Stack.Screen name="Карточка товаров" component={CardScreen} />
+        <Stack.Screen name="Card" component={CardScreen} />
         <Stack.Screen
           name="CreateCard"
           component={CreateCardScreen}

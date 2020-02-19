@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import {
   View,
@@ -8,16 +8,16 @@ import {
   TouchableOpacity,
   Text,
   FlatList
-} from 'react-native'
+} from "react-native"
 
-import { Ionicons } from '@expo/vector-icons'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import { AppButton } from '../components/app-button'
-import { AppHeaderIcon } from '../components/app-header-icon'
-import Colors from '../constants/colors'
+import { Ionicons } from "@expo/vector-icons"
+import Swipeable from "react-native-gesture-handler/Swipeable"
+import { HeaderButtons, Item } from "react-navigation-header-buttons"
+import { AppButton } from "../components/app-button"
+import { AppHeaderIcon } from "../components/app-header-icon"
+import Colors from "../constants/colors"
 
-import moment from 'moment'
+import moment from "moment"
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
@@ -26,28 +26,30 @@ export const MainScreen = ({ navigation }) => {
   const cards = useSelector(state => state.card.cards)
 
   const openCardHandler = card => {
-    
-
+    console.log(card)
+    navigation.navigate("Card", {
+      cardId: card.id
+    })
   }
 
-  const onEditCard = (card) => {
-    navigation.navigate('CreateCard', {
+  const onEditCard = card => {
+    navigation.navigate("CreateCard", {
       cardId: card.id
     })
   }
 
   const onRemoveCard = () => {
     Alert.alert(
-      'Удаление карточки',
-      'Вы действительно желаете удалить карточку?',
+      "Удаление карточки",
+      "Вы действительно желаете удалить карточку?",
       [
         {
-          text: 'Отмена',
-          onPress: () => console.log('Вы отменили удаление'),
-          style: 'cancel'
+          text: "Отмена",
+          onPress: () => console.log("Вы отменили удаление"),
+          style: "cancel"
         },
         {
-          text: 'OK',
+          text: "OK",
           onPress: () => dispatch(removeCard(card.id))
         }
       ],
@@ -60,16 +62,16 @@ export const MainScreen = ({ navigation }) => {
       renderLeftActions={() => (
         <View
           style={{
-            backgroundColor: 'red',
-            justifyContent: 'center',
-            alignItems: 'center',
+            backgroundColor: "red",
+            justifyContent: "center",
+            alignItems: "center",
             width: 50
           }}
         >
           <Text
             style={{
-              color: '#fff',
-              fontFamily: 'roboto-regular',
+              color: "#fff",
+              fontFamily: "roboto-regular",
               fontSize: 17
             }}
           >
@@ -80,16 +82,16 @@ export const MainScreen = ({ navigation }) => {
       renderRightActions={() => (
         <View
           style={{
-            backgroundColor: 'green',
-            justifyContent: 'center',
-            alignItems: 'center',
+            backgroundColor: "green",
+            justifyContent: "center",
+            alignItems: "center",
             width: 50
           }}
         >
           <Text
             style={{
-              color: '#fff',
-              fontFamily: 'roboto-regular',
+              color: "#fff",
+              fontFamily: "roboto-regular",
               fontSize: 17
             }}
           >
@@ -98,7 +100,7 @@ export const MainScreen = ({ navigation }) => {
         </View>
       )}
       onSwipeableLeftWillOpen={onRemoveCard}
-      onSwipeableRightWillOpen={()=>onEditCard(card)}
+      onSwipeableRightWillOpen={() => onEditCard(card)}
       overshootLeft={false}
       overshootRight={false}
     >
@@ -108,7 +110,7 @@ export const MainScreen = ({ navigation }) => {
             <View>
               <Text style={styles.name}>{card.name}</Text>
               <Text style={styles.timestamp}>
-                {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
+                {moment(card.timestamp).format("DD.MM.YY, h:mm:ss")}
               </Text>
             </View>
           </View>
@@ -144,7 +146,7 @@ export const MainScreen = ({ navigation }) => {
       ) : (
         <Text style={styles.noItems}>Покупок пока нет</Text>
       )}
-      <AppButton onPress={() => navigation.navigate('CreateCard')} />
+      <AppButton onPress={() => navigation.navigate("CreateCard")} />
     </View>
   )
 }
@@ -155,34 +157,34 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.mainBackgroundColor
   },
   noItems: {
-    textAlign: 'center',
+    textAlign: "center",
     marginVertical: 10,
     fontSize: 18
   },
   wrapperItem: {
-    backgroundColor: Colors.mainBackgroundColor,
+    backgroundColor: Colors.mainBackgroundColor
   },
   separator: {
     backgroundColor: Colors.separatorColor,
-    height: StyleSheet.hairlineWidth,
+    height: StyleSheet.hairlineWidth
   },
   card: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 5
   },
 
   name: {
-    fontFamily: 'roboto-bold',
+    fontFamily: "roboto-bold",
     fontSize: 17,
-    fontWeight: '500',
+    fontWeight: "500",
     color: Colors.mainColor,
-    textAlign: 'center'
+    textAlign: "center"
   },
   timestamp: {
     fontSize: 14,
-    color: '#C4C6CE',
+    color: "#C4C6CE",
     marginTop: 4
   }
 })

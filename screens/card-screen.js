@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   View,
   Text,
@@ -6,38 +6,40 @@ import {
   FlatList,
   Alert,
   TouchableOpacity
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { CheckBox} from "native-base";
-import {removeProductFromCard} from '../store/actions/card'
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import moment from "moment";
+} from "react-native"
+import { useSelector, useDispatch } from "react-redux"
+import { CheckBox } from "native-base"
+import { removeProductFromCard } from "../store/actions/card"
 
-import { AppHeaderIcon } from "../components/app-header-icon";
-import { AppButton } from "../components/app-button";
-import { AppHeaderMaterialIcon } from "../components/app-header-material-icon";
+import Swipeable from "react-native-gesture-handler/Swipeable"
+import moment from "moment"
+
+import { AppButton } from "../components/app-button"
 
 export const CardScreen = ({ navigation, route }) => {
-  const dispatch = useDispatch();
-  
-  const {cardId} = route.params;
+  const dispatch = useDispatch()
+
+  const { cardId } = route.params
   const cardProducts = useSelector(state => {
-    return state.product.cardProducts.filter(({idCard}) => idCard === cardId)
+    return state.product.cardProducts.filter(({ idCard }) => idCard === cardId)
   })
 
-  console.log('CARDPRODUCTS in CARD', card)
 
   const renderLeftActions = () => {
     return (
       <View style={styles.leftAction}>
         <Text
-          style={{ color: "#fff", fontFamily: "roboto-regular", fontSize: 17 }}
+          style={{
+            color: "#fff",
+            fontFamily: "roboto-regular",
+            fontSize: 17
+          }}
         >
           DEL
         </Text>
       </View>
-    );
-  };
+    )
+  }
 
   const onRemoveProductFromCard = id => {
     Alert.alert(
@@ -55,8 +57,8 @@ export const CardScreen = ({ navigation, route }) => {
         }
       ],
       { cancelable: false }
-    );
-  };
+    )
+  }
 
   const renderProducts = product => {
     return (
@@ -65,20 +67,29 @@ export const CardScreen = ({ navigation, route }) => {
         onSwipeableLeftWillOpen={() => onRemoveProductFromCard(product.idTemp)}
         overshootLeft={false}
       >
-        <TouchableOpacity activeOpacity={0.9}  onPress={() => navigation.navigate("CreateProduct", { id: cardId, cardProduct: product })}>
-        <View style={styles.product}>
-          <CheckBox style={{ margin: 0 }} checked={product.done} />
-          <Text style={styles.prodName}>{product.name}</Text>
-          <Text>
-            {product.count} {product.measure}
-          </Text>
-          <Text>{product.price} грн.</Text>
-          <Text>{product.price * product.count} грн.</Text>
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() =>
+            navigation.navigate("CreateProduct", {
+              id: cardId,
+              cardProduct: product
+            })
+          }
+        >
+          <View style={styles.product}>
+            <CheckBox style={{ margin: 0 }} checked={product.done} />
+            <Text style={styles.prodName}>{product.name}</Text>
+            <Text>
+              {product.count} {product.measure}
+            </Text>
+            <Text>{product.price} грн.</Text>
+            <Text>{product.price * product.count} грн.</Text>
+          </View>
         </TouchableOpacity>
       </Swipeable>
-    );
-  };
+    )
+  }
+  if (!cardId) return <View><Text>HHH</Text></View>
 
   return (
     <View style={styles.container}>
@@ -103,10 +114,8 @@ export const CardScreen = ({ navigation, route }) => {
         onPress={() => navigation.navigate("CreateProduct", { id: cardId })}
       />
     </View>
-  );
-};
-
-
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -187,4 +196,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "roboto-regular"
   }
-});
+})
