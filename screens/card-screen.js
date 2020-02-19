@@ -11,17 +11,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { CheckBox} from "native-base";
 import {removeProductFromCard} from '../store/actions/card'
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { HeaderButtons, Item as I } from "react-navigation-header-buttons";
 import moment from "moment";
 
 import { AppHeaderIcon } from "../components/app-header-icon";
 import { AppButton } from "../components/app-button";
 import { AppHeaderMaterialIcon } from "../components/app-header-material-icon";
 
-export const CardScreen = ({ navigation }) => {
+export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   
-  const cardId = navigation.getParam("cardId");
+  const {cardId} = route.params;
   const cardProducts = useSelector(state => {
     return state.product.cardProducts.filter(({idCard}) => idCard === cardId)
   })
@@ -88,9 +87,9 @@ export const CardScreen = ({ navigation }) => {
         {moment(date).format("DD.MM.YY, h:mm:ss")}
       </Text>
 
-      {transformCardProducts.length ? (
+      {cardProducts.length ? (
         <FlatList
-          data={transformCardProducts}
+          data={cardProducts}
           renderItem={({ item }) => renderProducts(item)}
           keyExtractor={item => item.idTemp}
         />
@@ -107,29 +106,7 @@ export const CardScreen = ({ navigation }) => {
   );
 };
 
-CardScreen.navigationOptions = ({ navigation }) => ({
-  headerTitle: "Товары",
-  headerLeft: (
-    <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-      <I
-        title="Toggle Drawer"
-        iconName="md-arrow-back"
-        onPress={() => navigation.navigate("Home")}
-      />
-    </HeaderButtons>
-  ),
-  headerRight: (
-    <HeaderButtons HeaderButtonComponent={AppHeaderMaterialIcon}>
-      <I
-        title="Edit card"
-        iconName="edit"
-        onPress={() => navigation.navigate("CreateCard", {
-          id: navigation.getParam("cardId")
-        })}
-      />
-    </HeaderButtons>
-  )
-});
+
 
 const styles = StyleSheet.create({
   container: {
