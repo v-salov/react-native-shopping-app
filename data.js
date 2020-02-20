@@ -79,11 +79,11 @@ export const cards = [
   }
 ]
 
-const cardProducts = [
-  {  id: idGenerate(), idCard: '1',  product: 'Кефир',  count: 1, price: 30, measure: 'л', done: true },
-  {  id: idGenerate(), idCard: '2',  product: 'Пиво',  count: 2, price: 30, measure: 'бут', done: true },
-  {  id: idGenerate(), idCard: '1',  product: 'Мороженное',  count: 3, price: 30, measure: 'шт', done: true },
-  {  id: idGenerate(), idCard: '2',  product: 'Колбаса',  count: 4, price: 30, measure: 'шт', done: true },
+export const cardProducts = [
+  {  id: idGenerate(), idCard: '1',  name: 'Кефир',  count: 1, price: 30, measure: 'л', done: true },
+  {  id: idGenerate(), idCard: '2',  name: 'Пиво',  count: 2, price: 30, measure: 'бут', done: true },
+  {  id: idGenerate(), idCard: '1',  name: 'Мороженное',  count: 3, price: 30, measure: 'шт', done: true },
+  {  id: idGenerate(), idCard: '2',  name: 'Колбаса',  count: 4, price: 30, measure: 'шт', done: true },
   
 ]
 

@@ -17,7 +17,6 @@ import { getAsyncProducts, getAsyncCategories, getAsyncMeasures} from '../../dat
 
 export const createProduct = (product) => async dispatch => {
   product.id = Math.random()
-console.log(product)
   dispatch({
     type: CREATE_PRODUCT,
     payload: product,

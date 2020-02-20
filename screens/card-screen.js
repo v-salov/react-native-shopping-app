@@ -5,41 +5,28 @@ import {
   StyleSheet,
   FlatList,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native"
 import { useSelector, useDispatch } from "react-redux"
 import { CheckBox } from "native-base"
 import { removeProductFromCard } from "../store/actions/card"
-
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
-
 import { AppButton } from "../components/app-button"
+import Colors from '../constants/colors'
 
 export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
-
   const { cardId } = route.params
+  
+  const {name, date} = useSelector(state =>
+    state.card.cards.find(c => c.id === cardId)
+  )
+  
   const cardProducts = useSelector(state => {
-    return state.product.cardProducts.filter(({ idCard }) => idCard === cardId)
+    return state.card.cardProducts.filter(({ idCard }) => idCard === cardId)
   })
-
-
-  const renderLeftActions = () => {
-    return (
-      <View style={styles.leftAction}>
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "roboto-regular",
-            fontSize: 17
-          }}
-        >
-          DEL
-        </Text>
-      </View>
-    )
-  }
 
   const onRemoveProductFromCard = id => {
     Alert.alert(
@@ -60,40 +47,55 @@ export const CardScreen = ({ navigation, route }) => {
     )
   }
 
+  const onEditCardProduct = ({nativeEvent}) => {
+    const value = nativeEvent.text
+    console.log(value)
+  }
+
+  const renderLeftActions = () => {
+    return (
+      <View style={styles.leftAction}>
+        <Text
+          style={{
+            color: "#fff",
+            fontFamily: "roboto-regular",
+            fontSize: 17
+          }}
+        >
+          DEL
+        </Text>
+      </View>
+    )
+  }
+
+  
+
   const renderProducts = product => {
     return (
       <Swipeable
         renderLeftActions={renderLeftActions}
-        onSwipeableLeftWillOpen={() => onRemoveProductFromCard(product.idTemp)}
+        onSwipeableLeftWillOpen={() => onRemoveProductFromCard(product.id)}
         overshootLeft={false}
       >
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() =>
-            navigation.navigate("CreateProduct", {
-              id: cardId,
-              cardProduct: product
-            })
-          }
-        >
+       
           <View style={styles.product}>
             <CheckBox style={{ margin: 0 }} checked={product.done} />
-            <Text style={styles.prodName}>{product.name}</Text>
-            <Text>
-              {product.count} {product.measure}
-            </Text>
-            <Text>{product.price} грн.</Text>
-            <Text>{product.price * product.count} грн.</Text>
+            <Text style={styles.prod}>{product.name}</Text>
+            <TextInput 
+            style={styles.prod} onEndEditing={onEditCardProduct}>
+              {product.count}
+            </TextInput>
+            <Text style={styles.prod}>{product.price} грн.</Text>
+            <Text style={styles.prod}>{product.price * product.count} грн.</Text>
           </View>
-        </TouchableOpacity>
+        
       </Swipeable>
     )
   }
-  if (!cardId) return <View><Text>HHH</Text></View>
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{cardName}</Text>
+      <Text style={styles.title}>{name}</Text>
       <Text style={{ textAlign: "center", marginBottom: 10 }}>
         {moment(date).format("DD.MM.YY, h:mm:ss")}
       </Text>
@@ -102,10 +104,12 @@ export const CardScreen = ({ navigation, route }) => {
         <FlatList
           data={cardProducts}
           renderItem={({ item }) => renderProducts(item)}
-          keyExtractor={item => item.idTemp}
+          keyExtractor={item => item.id}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+
         />
       ) : (
-        <Text style={{ textAlign: "center", fontSize: 20 }}>
+        <Text style={styles.title}>
           Добавить товары
         </Text>
       )}
@@ -120,15 +124,23 @@ export const CardScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EBECF4",
+    backgroundColor: "#000",
     padding: 5
   },
+  separator: {
+    backgroundColor: Colors.separatorColor,
+    height: StyleSheet.hairlineWidth
+  },
+
   title: {
     textAlign: "center",
     fontFamily: "roboto-bold",
-    fontSize: 18
+    fontSize: 18,
+    color: 'white'
   },
-  date: {},
+  date: {
+    color: 'white'
+  },
   headerTable: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -138,25 +150,17 @@ const styles = StyleSheet.create({
   headerProduct: {},
 
   product: {
-    backgroundColor: "#FFF",
-    borderRadius: 5,
-    padding: 8,
+    backgroundColor: Colors.color4,
+    padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 5,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 2.8,
-    elevation: 2
+    borderRadius: 10
   },
-  prodName: {
-    fontFamily: "roboto-bold",
+  prod: {
+    fontFamily: "roboto-regular",
     fontSize: 17,
     fontWeight: "500",
-    color: "#454D65",
+    color: "#FFF",
     textAlign: "center"
   },
   button: {
@@ -178,12 +182,10 @@ const styles = StyleSheet.create({
   },
   leftAction: {
     backgroundColor: "red",
-    borderRadius: 5,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    width: 50,
-    height: 38,
-    top: 6
+    width: 50
   },
   rightAction: {
     backgroundColor: "#57ff1f",

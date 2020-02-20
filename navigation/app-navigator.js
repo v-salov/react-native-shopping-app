@@ -1,12 +1,12 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import React from "react"
+import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
 
-import { MainScreen } from '../screens/main-screen'
-import { CardScreen } from '../screens/card-screen'
-import { CreateCardScreen } from '../screens/create-card-screen'
-import { AddProductScreen } from '../screens/add-product-screen'
-import  Colors  from '../constants/colors'
+import { MainScreen } from "../screens/main-screen"
+import { CardScreen } from "../screens/card-screen"
+import { CreateCardScreen } from "../screens/create-card-screen"
+import { AddProductScreen } from "../screens/add-product-screen"
+import Colors from "../constants/colors"
 
 const Stack = createStackNavigator()
 
@@ -17,41 +17,51 @@ function getHeaderTitle(route) {
       route.state.routes[route.state.index].name
     : // If state doesn't exist, we need to default to `screen` param if available, or the initial screen
       // In our case, it's "Feed" as that's the first screen inside the navigator
-      route.params?.screen || 'CreateCard'
+      route.params?.screen || "CreateCard"
 
   switch (routeName) {
-    case 'CreateCard':
-      return 'Создание новой покупки'
-    case 'Profile':
-      return 'My profile'
+    case "CreateCard":
+      return "Создание новой покупки"
+    case "Profile":
+      return "My profile"
   }
 }
 
 const configOptions = {
   headerStyle: {
-    backgroundColor: Colors.mainBackgroundColor,
+    backgroundColor: Colors.mainBackgroundColor
   },
   headerTintColor: Colors.mainColor,
   headerTitleStyle: {
-    fontFamily: 'roboto-bold',
-    textAlign: 'center'
-  },
+    fontFamily: "roboto-bold",
+    textAlign: "center"
+  }
 }
 
 export default function() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Покупки" component={MainScreen} 
+        <Stack.Screen
+          name="Покупки"
+          component={MainScreen}
           options={configOptions}
         />
-        <Stack.Screen name="Card" component={CardScreen} />
+        <Stack.Screen
+          name="Card"
+          component={CardScreen}
+          options={configOptions}
+        />
         <Stack.Screen
           name="CreateCard"
           component={CreateCardScreen}
           options={configOptions}
         />
-        <Stack.Screen name="AddProduct" component={AddProductScreen} />
+        <Stack.Screen
+          name="AddProduct"
+          component={AddProductScreen}
+          options={configOptions}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

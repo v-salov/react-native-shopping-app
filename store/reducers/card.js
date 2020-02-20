@@ -1,4 +1,5 @@
-import {cards} from '../../data'
+import {cards, cardProducts} from '../../data'
+import idGenerate from '../../core/idGenerator'
 import {
   ADD_CARD,
   ADD_PRODUCT_TO_CARD,
@@ -10,8 +11,9 @@ import {
 } from "../types"
 
 const initialState = {
-  cards: cards,
-  loading: false
+  loading: false,
+  cards,
+  cardProducts
 }
 
 export const cardReducer = (state = initialState, action) => {

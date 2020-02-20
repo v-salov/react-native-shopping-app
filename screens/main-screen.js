@@ -26,9 +26,10 @@ export const MainScreen = ({ navigation }) => {
   const cards = useSelector(state => state.card.cards)
 
   const openCardHandler = card => {
-    console.log(card)
     navigation.navigate("Card", {
-      cardId: card.id
+      cardId: card.id,
+      name: card.name,
+      date: card.date,
     })
   }
 

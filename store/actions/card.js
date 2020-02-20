@@ -8,21 +8,13 @@ import {
   REMOVE_PRODUCT_FROM_CARD,
   EDIT_CARD
 } from "../types"
-import { getAsyncCards } from "../../data"
 
 export const loadCards = () => async dispatch => {
-  const cards = await getAsyncCards()
-  dispatch({
-    type: LOAD_CARDS,
-    payload: cards
-  })
+  
 }
 
 export const addCard = card => dispatch => {
-  dispatch({
-    type: ADD_CARD,
-    payload: card
-  })
+  
 }
 
 export const editCard = card => dispatch => {
