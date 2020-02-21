@@ -25,31 +25,14 @@ export const cardProductReducer = (state = initialState, action) => {
       case EDIT_PRODUCT_IN_CARD:
       return {
         ...state,
-        cards: state.cards.map(card => {
-          if (card.id === action.idCard) {
-            card.cardProducts = card.cardProducts.map(p => {
-              if (p.idTemp === action.idTemp) {
-                p = action.product
-                p.idTemp = action.idTemp
-              }
-              return p
-            })
+        cardProducts: state.cardProducts.map(cp => {
+          if(cp.id === action.payload.id) {
+            cp = action.payload
           }
-          return card
+          return cp
         })
       }
-    case REMOVE_PRODUCT_FROM_CARD:
-      return {
-        ...state,
-        cards: state.cards.map(card => {
-          if (card.id === action.idCard) {
-            card.cardProducts = card.cardProducts.filter(
-              p => p.idTemp !== action.idTemp
-            )
-          }
-          return card
-        })
-      }
+
     default:
       return state
   }

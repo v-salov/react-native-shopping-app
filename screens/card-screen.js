@@ -15,6 +15,8 @@ import moment from "moment"
 import { AppButton } from "../components/app-button"
 import Colors from "../constants/colors"
 
+import {editProductInCard} from '../store/actions/cardProduct'
+
 export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { cardId } = route.params
@@ -46,9 +48,10 @@ export const CardScreen = ({ navigation, route }) => {
     )
   }
 
-  const onEditCardProduct = (e, id) => {
-    const value = e.nativeEvent.text
-    console.log(value, id)
+  const onEditCount = (e, product) => {
+    const count = +e.nativeEvent.text
+    const newPr = {...product, count}
+   dispatch(editProductInCard(newPr))
   }
 
   const renderLeftActions = () => {
@@ -77,7 +80,7 @@ export const CardScreen = ({ navigation, route }) => {
         <View style={styles.product}>
           <CheckBox style={{ margin: 0 }} checked={product.done} />
           <Text style={styles.prod}>{product.name}</Text>
-          <TextInput style={styles.prod} onEndEditing={(e)=>onEditCardProduct(e,product.id)}>
+          <TextInput style={styles.prod} onEndEditing={(e)=>onEditCount(e, product)}>
             {product.count}
           </TextInput>
           <Text style={styles.prod}>{product.price} грн.</Text>

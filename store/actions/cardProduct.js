@@ -4,8 +4,8 @@ import {
   REMOVE_PRODUCT_FROM_CARD
 } from "../types"
 
-export const addProductToCard = (product, idCard, idTemp) => dispatch => {
-  if (!idTemp) {
+export const editProductInCard = (product) => dispatch => {
+  if (!product.id) {
     product = {
       ...product,
       idTemp: Math.random().toString()
@@ -18,9 +18,7 @@ export const addProductToCard = (product, idCard, idTemp) => dispatch => {
   } else {
     dispatch({
       type: EDIT_PRODUCT_IN_CARD,
-      product,
-      idCard,
-      idTemp
+      payload: product
     })
   }
 }
