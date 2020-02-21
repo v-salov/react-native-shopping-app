@@ -10,11 +10,8 @@ import {
   FlatList
 } from "react-native"
 
-import { Ionicons } from "@expo/vector-icons"
 import Swipeable from "react-native-gesture-handler/Swipeable"
-import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import { AppButton } from "../components/app-button"
-import { AppHeaderIcon } from "../components/app-header-icon"
 import Colors from "../constants/colors"
 
 import moment from "moment"

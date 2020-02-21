@@ -10,22 +10,21 @@ import {
 } from "react-native"
 import { useSelector, useDispatch } from "react-redux"
 import { CheckBox } from "native-base"
-import { removeProductFromCard } from "../store/actions/card"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
 import { AppButton } from "../components/app-button"
-import Colors from '../constants/colors'
+import Colors from "../constants/colors"
 
 export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const { cardId } = route.params
-  
-  const {name, date} = useSelector(state =>
+
+  const { name, date } = useSelector(state =>
     state.card.cards.find(c => c.id === cardId)
   )
-  
+
   const cardProducts = useSelector(state => {
-    return state.card.cardProducts.filter(({ idCard }) => idCard === cardId)
+    return state.cardProduct.cardProducts.filter(({ idCard }) => idCard === cardId)
   })
 
   const onRemoveProductFromCard = id => {
@@ -47,9 +46,9 @@ export const CardScreen = ({ navigation, route }) => {
     )
   }
 
-  const onEditCardProduct = ({nativeEvent}) => {
-    const value = nativeEvent.text
-    console.log(value)
+  const onEditCardProduct = (e, id) => {
+    const value = e.nativeEvent.text
+    console.log(value, id)
   }
 
   const renderLeftActions = () => {
@@ -68,8 +67,6 @@ export const CardScreen = ({ navigation, route }) => {
     )
   }
 
-  
-
   const renderProducts = product => {
     return (
       <Swipeable
@@ -77,18 +74,15 @@ export const CardScreen = ({ navigation, route }) => {
         onSwipeableLeftWillOpen={() => onRemoveProductFromCard(product.id)}
         overshootLeft={false}
       >
-       
-          <View style={styles.product}>
-            <CheckBox style={{ margin: 0 }} checked={product.done} />
-            <Text style={styles.prod}>{product.name}</Text>
-            <TextInput 
-            style={styles.prod} onEndEditing={onEditCardProduct}>
-              {product.count}
-            </TextInput>
-            <Text style={styles.prod}>{product.price} грн.</Text>
-            <Text style={styles.prod}>{product.price * product.count} грн.</Text>
-          </View>
-        
+        <View style={styles.product}>
+          <CheckBox style={{ margin: 0 }} checked={product.done} />
+          <Text style={styles.prod}>{product.name}</Text>
+          <TextInput style={styles.prod} onEndEditing={(e)=>onEditCardProduct(e,product.id)}>
+            {product.count}
+          </TextInput>
+          <Text style={styles.prod}>{product.price} грн.</Text>
+          <Text style={styles.prod}>{product.price * product.count} грн.</Text>
+        </View>
       </Swipeable>
     )
   }
@@ -106,12 +100,9 @@ export const CardScreen = ({ navigation, route }) => {
           renderItem={({ item }) => renderProducts(item)}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-
         />
       ) : (
-        <Text style={styles.title}>
-          Добавить товары
-        </Text>
+        <Text style={styles.title}>Добавить товары</Text>
       )}
 
       <AppButton
@@ -136,10 +127,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: "roboto-bold",
     fontSize: 18,
-    color: 'white'
+    color: "white"
   },
   date: {
-    color: 'white'
+    color: "white"
   },
   headerTable: {
     flexDirection: "row",

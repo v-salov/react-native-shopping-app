@@ -22,7 +22,7 @@ export default function App(props) {
   } else {
     return (
       <Provider store={store}>
-        <PersistGate persistor={persistor()}>
+        <PersistGate persistor={persistor}>
         <View style={styles.container}>
           <AppNavigator />
         </View>

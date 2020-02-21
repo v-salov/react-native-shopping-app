@@ -1,20 +1,16 @@
 import * as FileSystem from "expo-file-system"
 import {
-  ADD_CARD,
-  ADD_PRODUCT_TO_CARD,
-  EDIT_PRODUCT_TO_CARD,
-  LOAD_CARDS,
+  CREATE_CARD,
   REMOVE_CARD,
-  REMOVE_PRODUCT_FROM_CARD,
   EDIT_CARD
 } from "../types"
 
-export const loadCards = () => async dispatch => {
-  
-}
 
-export const addCard = card => dispatch => {
-  
+export const createCard = card => dispatch => {
+  dispatch({
+    type: CREATE_CARD,
+    payload: card
+  })
 }
 
 export const editCard = card => dispatch => {
@@ -31,31 +27,4 @@ export const removeCard = id => dispatch => {
   })
 }
 
-export const addProductToCard = (product, idCard, idTemp) => dispatch => {
-  if (!idTemp) {
-    product = {
-      ...product, idTemp: Math.random().toString()
-    }
-    dispatch({
-      type: ADD_PRODUCT_TO_CARD,
-      product,
-      idCard
-    })
-  } else {
-    dispatch({
-      type: EDIT_PRODUCT_TO_CARD,
-      product,
-      idCard,
-      idTemp
-    })
-  }
- 
-}
 
-export const removeProductFromCard = (idTemp, idCard) => dispatch => {
-  dispatch({
-    type: REMOVE_PRODUCT_FROM_CARD,
-    idTemp,
-    idCard
-  })
-}
