@@ -23,10 +23,9 @@ export const editProductInCard = (product) => dispatch => {
   }
 }
 
-export const removeProductFromCard = (idTemp, idCard) => dispatch => {
+export const removeProductFromCard = (id) => dispatch => {
   dispatch({
     type: REMOVE_PRODUCT_FROM_CARD,
-    idTemp,
-    idCard
+    payload: id
   })
 }

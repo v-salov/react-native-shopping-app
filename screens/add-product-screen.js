@@ -5,59 +5,37 @@ import {
   StyleSheet,
   TextInput,
   Button,
-  ScrollView
+  ScrollView,
+  Picker, CheckBox,
+  TouchableOpacity
 } from "react-native"
-import { Picker, CheckBox, Input, Label, Item } from "native-base"
 import { useDispatch, useSelector } from "react-redux"
-import { HeaderButtons, Item as I } from "react-navigation-header-buttons"
 import { addCard, addProductToCard } from "../store/actions/card"
 import Colors from "../constants/colors"
-import { AppHeaderIcon } from "../components/app-header-icon"
-import { TouchableOpacity } from "react-native-gesture-handler"
 
-export const AddProductScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
+export const AddProductScreen = ({ navigation, route }) => {
+  const { idCard } = route.params
+
   const products = useSelector(state => state.product.products)
-  const id = navigation.getParam("id")
-  const cardProduct = navigation.getParam("cardProduct")
-  const tempProduct = cardProduct
-    ? products.find(p => p.id === cardProduct.id)
-    : products[0]
-
-  const [product, setProduct] = useState(tempProduct)
-  const [count, setCount] = useState(
-    cardProduct ? cardProduct.count.toString() : "1"
-  )
-  const [done, setDone] = useState(cardProduct ? cardProduct.done : false)
-
-  const saveHandler = () => {
-    const productCard = {
-      id: product.id,
-      count: +count,
-      done
-    }
-    const idTemp = cardProduct ? cardProduct.idTemp : null
-    dispatch(addProductToCard(productCard, id, idTemp))
-    navigation.replace("Card", { cardId: id })
-  }
+  const [product, setProduct] = useState(products[0])
+  const [count, setCount] = useState(1)
+  const [price, setPrice] = useState(product.price)
 
   return (
     <ScrollView>
       <View style={styles.wrapper}>
-        <Text style={styles.title}>
-          {cardProduct ? "Изменение" : "Добавление"} товара
-        </Text>
+        <Text style={styles.title}>Добавление товара</Text>
 
         <View
           style={{
             flexDirection: "row",
-            alignItems: "flex-end",
+            alignItems:'center',
             marginBottom: 15
           }}
         >
           <Picker
             selectedValue={product}
-            onValueChange={product => setProduct(product)}
+            onValueChange={p => setProduct(p)}
             style={{ width: "50%" }}
           >
             {products.map((pr, i) => (
@@ -65,81 +43,46 @@ export const AddProductScreen = ({ navigation }) => {
             ))}
           </Picker>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate("AddProduct")}
-            style={{
-              backgroundColor: Colors.tintColor,
-              width: 25,
-              height: 25,
-              borderRadius: 5,
-              marginBottom: 5,
-              marginLeft: 10,
-              marginRight: 5
-            }}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                fontFamily: "roboto-bold",
-                fontSize: 17,
-                color: "#fff"
-              }}
-            >
-              +
-            </Text>
-          </TouchableOpacity>
+          
 
-          <Item floatingLabel>
-            <Label>Количество {product && product.measure}</Label>
-            <Input
+         
+            <TextInput
               keyboardType="numeric"
-              value={count}
-              onChangeText={c => setCount(c)}
-            />
-          </Item>
+              onChange={e=>setCount(+e.nativeEvent.text || 1)}
+            >
+              {count}
+            </TextInput>
+          
           <View>
-            <Text>{product.price} грн.</Text>
+            <Text>{price} грн.</Text>
           </View>
         </View>
 
-        <View style={{ flexDirection: "row", marginBottom: 5 }}>
+        {/* <View style={{ flexDirection: "row", marginBottom: 5 }}>
           <Text>Избранное: </Text>
           <CheckBox
             style={{ margin: 0 }}
             checked={done}
             onPress={() => setDone(!done)}
           />
-        </View>
+        </View> */}
 
-        <Button
-          title={cardProduct ? "Изменить" : "Создать"}
+        {/* <Button
+          title="Create"
           color={Colors.tintColor}
           onPress={saveHandler}
-          disabled={!(product && count)}
-        />
+          disabled={!(product && product.count)}
+        /> */}
       </View>
       <View>
-        <Text>Цена за единицу: {product.price} грн.</Text>
-        <Text>Общая сумма {count && product.price * count}</Text>
+        <Text>Цена за единицу: {price} грн.</Text>
+        <Text>Общая сумма {price * count}</Text>
       </View>
     </ScrollView>
   )
 }
 
-AddProductScreen.navigationOptions = ({ navigation }) => ({
-  headerTitle: `${
-    navigation.getParam("cardProduct") ? "Изменить" : "Добавить"
-  } товары`,
-  headerLeft: (
-    <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-      <I
-        title="Toggle Drawer"
-        iconName="md-arrow-back"
-        onPress={() => navigation.goBack()}
-      />
-    </HeaderButtons>
-  )
-})
+
 
 const styles = StyleSheet.create({
   wrapper: {

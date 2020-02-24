@@ -14,7 +14,7 @@ import moment from "moment"
 import { AppButton } from "../components/app-button"
 import Colors from "../constants/colors"
 
-import { editProductInCard } from "../store/actions/cardProduct"
+import { editProductInCard, removeProductFromCard } from "../store/actions/cardProduct"
 
 export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
@@ -39,12 +39,11 @@ export const CardScreen = ({ navigation, route }) => {
       [
         {
           text: "Отмена",
-          onPress: () => console.log("Вы отменили удаление"),
           style: "cancel"
         },
         {
           text: "OK",
-          onPress: () => dispatch(removeProductFromCard(id, card.id))
+          onPress: () => dispatch(removeProductFromCard(id))
         }
       ],
       { cancelable: false }
@@ -68,7 +67,7 @@ export const CardScreen = ({ navigation, route }) => {
     dispatch(editProductInCard(newPr))
   }
 
-  const renderLeftActions = () => {
+  const renderRightActions = () => {
     return (
       <View style={styles.leftAction}>
         <Text
@@ -87,9 +86,9 @@ export const CardScreen = ({ navigation, route }) => {
   const renderProducts = product => {
     return (
       <Swipeable
-        renderLeftActions={renderLeftActions}
-        onSwipeableLeftWillOpen={() => onRemoveProductFromCard(product.id)}
-        overshootLeft={false}
+        renderRightActions={renderRightActions}
+        onSwipeableRightWillOpen={() => onRemoveProductFromCard(product.id)}
+        overshootRight={false}
       >
         <View style={styles.product}>
           <Picker
@@ -108,12 +107,14 @@ export const CardScreen = ({ navigation, route }) => {
           </Picker>
           <TextInput
             style={styles.prod}
+            keyboardType="numeric"
             onEndEditing={e => onEditCount(e, product)}
           >
             {product.count}
           </TextInput>
           <TextInput
             style={styles.prod}
+            keyboardType="numeric"
             onEndEditing={e => onEditPrice(e, product)}
           >
             {product.price}
@@ -145,7 +146,7 @@ export const CardScreen = ({ navigation, route }) => {
       )}
 
       <AppButton
-        onPress={() => navigation.navigate("CreateProduct", { id: cardId })}
+        onPress={() => navigation.navigate("AddProduct", { idCard:cardId })}
       />
       <View style={styles.totalPrice}>
         <Text style={styles.totalPriceText}>

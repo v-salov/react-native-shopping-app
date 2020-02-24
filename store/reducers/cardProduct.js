@@ -33,6 +33,12 @@ export const cardProductReducer = (state = initialState, action) => {
         })
       }
 
+      case REMOVE_PRODUCT_FROM_CARD:
+      return {
+        ...state,
+        cardProducts: state.cardProducts.filter(cp => cp.id !== action.payload)
+      }
+
     default:
       return state
   }
