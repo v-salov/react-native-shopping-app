@@ -5,17 +5,16 @@ import {
   StyleSheet,
   FlatList,
   Alert,
-  TouchableOpacity,
-  TextInput
+  TextInput,
+  Picker
 } from "react-native"
 import { useSelector, useDispatch } from "react-redux"
-import { CheckBox } from "native-base"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
 import { AppButton } from "../components/app-button"
 import Colors from "../constants/colors"
 
-import {editProductInCard} from '../store/actions/cardProduct'
+import { editProductInCard } from "../store/actions/cardProduct"
 
 export const CardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
@@ -26,8 +25,12 @@ export const CardScreen = ({ navigation, route }) => {
   )
 
   const cardProducts = useSelector(state => {
-    return state.cardProduct.cardProducts.filter(({ idCard }) => idCard === cardId)
+    return state.cardProduct.cardProducts.filter(
+      ({ idCard }) => idCard === cardId
+    )
   })
+
+  const products = useSelector(state => state.product.products)
 
   const onRemoveProductFromCard = id => {
     Alert.alert(
@@ -50,8 +53,19 @@ export const CardScreen = ({ navigation, route }) => {
 
   const onEditCount = (e, product) => {
     const count = +e.nativeEvent.text
-    const newPr = {...product, count}
-   dispatch(editProductInCard(newPr))
+    const newPr = { ...product, count }
+    dispatch(editProductInCard(newPr))
+  }
+
+  const onEditPrice = (e, product) => {
+    const price = +e.nativeEvent.text
+    const newPr = { ...product, price }
+    dispatch(editProductInCard(newPr))
+  }
+
+  const onEditName = (name, product) => {
+    const newPr = { ...product, name}
+    dispatch(editProductInCard(newPr))
   }
 
   const renderLeftActions = () => {
@@ -78,13 +92,35 @@ export const CardScreen = ({ navigation, route }) => {
         overshootLeft={false}
       >
         <View style={styles.product}>
-          <CheckBox style={{ margin: 0 }} checked={product.done} />
-          <Text style={styles.prod}>{product.name}</Text>
-          <TextInput style={styles.prod} onEndEditing={(e)=>onEditCount(e, product)}>
+          <Picker
+            selectedValue={product.name}
+            style={styles.pickerStyle}
+            mode="dropdown"
+            onValueChange={name => onEditName(name, product)}
+          >
+            {products.map(p => (
+              <Picker.Item
+                label={p.name}
+                value={p.name}
+                key={p.id}
+              ></Picker.Item>
+            ))}
+          </Picker>
+          <TextInput
+            style={styles.prod}
+            onEndEditing={e => onEditCount(e, product)}
+          >
             {product.count}
           </TextInput>
-          <Text style={styles.prod}>{product.price} грн.</Text>
+          <TextInput
+            style={styles.prod}
+            onEndEditing={e => onEditPrice(e, product)}
+          >
+            {product.price}
+          </TextInput>
+          <View style={{justifyContent: 'center'}}>
           <Text style={styles.prod}>{product.price * product.count} грн.</Text>
+          </View>
         </View>
       </Swipeable>
     )
@@ -111,6 +147,13 @@ export const CardScreen = ({ navigation, route }) => {
       <AppButton
         onPress={() => navigation.navigate("CreateProduct", { id: cardId })}
       />
+      <View style={styles.totalPrice}>
+        <Text style={styles.totalPriceText}>
+          {cardProducts.reduce((total, item) => {
+            return total + item.count * item.price
+          }, 0)}
+        </Text>
+      </View>
     </View>
   )
 }
@@ -145,7 +188,6 @@ const styles = StyleSheet.create({
 
   product: {
     backgroundColor: Colors.color4,
-    padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: 10
@@ -165,14 +207,6 @@ const styles = StyleSheet.create({
     minWidth: 30,
     alignItems: "center",
     justifyContent: "center"
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 1,
-    // },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 1.5,
-    // elevation: 1
   },
   leftAction: {
     backgroundColor: "red",
@@ -191,5 +225,18 @@ const styles = StyleSheet.create({
     padding: 10,
     color: "#fff",
     fontFamily: "roboto-regular"
+  },
+  totalPrice: {
+    position: "absolute",
+    bottom: 10,
+    left: 20
+  },
+  totalPriceText: {
+    color: "white"
+  },
+  pickerStyle: {
+    width: "33%",
+    color: "white",
+    backgroundColor: Colors.color4
   }
 })

@@ -1,4 +1,4 @@
-import {cardProducts} from '../../data'
+import { cardProducts } from "../../data"
 import {
   ADD_PRODUCT_TO_CARD,
   REMOVE_PRODUCT_FROM_CARD,
@@ -22,11 +22,11 @@ export const cardProductReducer = (state = initialState, action) => {
           return card
         })
       }
-      case EDIT_PRODUCT_IN_CARD:
+    case EDIT_PRODUCT_IN_CARD:
       return {
         ...state,
         cardProducts: state.cardProducts.map(cp => {
-          if(cp.id === action.payload.id) {
+          if (cp.id === action.payload.id) {
             cp = action.payload
           }
           return cp
