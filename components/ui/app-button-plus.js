@@ -1,9 +1,9 @@
 import React from "react";
 import {TouchableOpacity, View, StyleSheet} from 'react-native'
 import {Entypo} from "@expo/vector-icons";
-import Colors from "../constants/colors";
+import Colors from "../../constants/colors";
 
-export const AppButton = (props) => {
+export const AppButtonPlus = (props) => {
   return (
       <TouchableOpacity {...props} style={styles.button} activeOpacity={0.7}>
         <Entypo name='plus' size={30} color={'white'}/>

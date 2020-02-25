@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
-import { AppButton } from "../components/app-button"
+import { AppButton } from "../components/ui/app-button-plus"
 import Colors from "../constants/colors"
 
 import { editProductInCard, removeProductFromCard } from "../store/actions/cardProduct"
@@ -145,7 +145,7 @@ export const CardScreen = ({ navigation, route }) => {
         <Text style={styles.title}>Добавить товары</Text>
       )}
 
-      <AppButton
+      <AppButtonPlus
         onPress={() => navigation.navigate("AddProduct", { idCard:cardId })}
       />
       <View style={styles.totalPrice}>

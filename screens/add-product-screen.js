@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+
 import {
   View,
   Text,
@@ -6,7 +7,8 @@ import {
   TextInput,
   Button,
   ScrollView,
-  Picker, CheckBox,
+  Picker,
+  CheckBox,
   TouchableOpacity
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
@@ -22,84 +24,80 @@ export const AddProductScreen = ({ navigation, route }) => {
   const [price, setPrice] = useState(product.price)
 
   return (
-    <ScrollView>
-      <View style={styles.wrapper}>
-        <Text style={styles.title}>Добавление товара</Text>
+    <ScrollView style={styles.wrapper}>
+      <Text style={styles.title}>Добавление товара</Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems:'center',
-            marginBottom: 15
-          }}
+      <View style={styles.productContainer}>
+        <Picker
+          selectedValue={product}
+          onValueChange={p => setProduct(p)}
+          mode="dropdown"
+          style={styles.name}
         >
-          <Picker
-            selectedValue={product}
-            onValueChange={p => setProduct(p)}
-            style={{ width: "50%" }}
+          {products.map((pr, i) => (
+            <Picker.Item label={pr.name} value={pr} key={i} />
+          ))}
+        </Picker>
+
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <TextInput
+            keyboardType="numeric"
+            onChange={e => setCount(+e.nativeEvent.text || 1)}
+            style={styles.count}
           >
-            {products.map((pr, i) => (
-              <Picker.Item label={pr.name} value={pr} key={i} />
-            ))}
-          </Picker>
-
-          
-
-         
-            <TextInput
-              keyboardType="numeric"
-              onChange={e=>setCount(+e.nativeEvent.text || 1)}
-            >
-              {count}
-            </TextInput>
-          
-          <View>
-            <Text>{price} грн.</Text>
-          </View>
+            {count}
+          </TextInput>
+          <Text style={styles.price}>{product.measure} </Text>
         </View>
 
-        {/* <View style={{ flexDirection: "row", marginBottom: 5 }}>
-          <Text>Избранное: </Text>
-          <CheckBox
-            style={{ margin: 0 }}
-            checked={done}
-            onPress={() => setDone(!done)}
-          />
-        </View> */}
+        <View style={{flexDirection: 'row', alignItems:'center'}}>
+          <TextInput style={styles.price} >{price}</TextInput>
+          <Text> грн.</Text>
+        </View>
+      </View>
 
-        {/* <Button
-          title="Create"
-          color={Colors.tintColor}
-          onPress={saveHandler}
-          disabled={!(product && product.count)}
-        /> */}
-      </View>
-      <View>
-        <Text>Цена за единицу: {price} грн.</Text>
-        <Text>Общая сумма {price * count}</Text>
-      </View>
+      <Text style={styles.price}>Цена за единицу: {price} грн.</Text>
+      <Text style={styles.price}>Общая сумма {price * count}</Text>
     </ScrollView>
   )
 }
 
-
-
 const styles = StyleSheet.create({
   wrapper: {
-    padding: 10
+    padding: 10,
+    backgroundColor: Colors.mainBackgroundColor
   },
   title: {
     fontSize: 20,
+    color: "#FFF",
     textAlign: "center",
     fontFamily: "roboto-regular",
     marginVertical: 10
   },
   name: {
-    padding: 10,
-    marginBottom: 10
+    width: "50%",
+    fontFamily: "roboto-regular",
+    color: "#FFF",
+    backgroundColor: Colors.color4
+  },
+  count: {
+    backgroundColor: Colors.color4,
+    color: "#fff"
+  },
+  price: {
+    color: "#FFF"
   },
   editProducts: {
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  productContainer: {
+    backgroundColor: Colors.color4,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginBottom: 15
   }
 })

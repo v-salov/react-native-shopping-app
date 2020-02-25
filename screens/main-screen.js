@@ -11,7 +11,7 @@ import {
 } from "react-native"
 
 import Swipeable from "react-native-gesture-handler/Swipeable"
-import { AppButton } from "../components/app-button"
+import { AppButtonPlus } from "../components/ui/app-button-plus"
 import Colors from "../constants/colors"
 
 import moment from "moment"
@@ -144,7 +144,7 @@ export const MainScreen = ({ navigation }) => {
       ) : (
         <Text style={styles.noItems}>Покупок пока нет</Text>
       )}
-      <AppButton onPress={() => navigation.navigate("CreateCard")} />
+      <AppButtonPlus onPress={() => navigation.navigate("CreateCard")} />
     </View>
   )
 }
