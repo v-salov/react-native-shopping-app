@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
-import { AppButton } from "../components/ui/app-button-plus"
+import { AppButtonPlus } from "../components/ui/app-button-plus"
 import Colors from "../constants/colors"
 
 import { editProductInCard, removeProductFromCard } from "../store/actions/cardProduct"

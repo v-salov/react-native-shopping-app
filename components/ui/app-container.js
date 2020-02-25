@@ -1,9 +1,9 @@
 import React from "react"
 import { View, StyleSheet } from "react-native"
 import Colors from "../../constants/colors"
-export const Container = props => {
+export const AppContainer = props => {
   return (
-    <View style={[...styles.container, ...props.style]}>{props.children}</View>
+    <View style={{...styles.container, ...props.style}}>{props.children}</View>
   )
 }
 

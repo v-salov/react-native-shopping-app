@@ -13,6 +13,7 @@ import {
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { addCard, addProductToCard } from "../store/actions/card"
+import { AppText } from '../components/ui/app-text'
 import Colors from "../constants/colors"
 
 export const AddProductScreen = ({ navigation, route }) => {
@@ -22,6 +23,8 @@ export const AddProductScreen = ({ navigation, route }) => {
   const [product, setProduct] = useState(products[0])
   const [count, setCount] = useState(1)
   const [price, setPrice] = useState(product.price)
+
+
 
   return (
     <ScrollView style={styles.wrapper}>
@@ -38,6 +41,9 @@ export const AddProductScreen = ({ navigation, route }) => {
             <Picker.Item label={pr.name} value={pr} key={i} />
           ))}
         </Picker>
+        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('CreateProduct')}>
+          <AppText>+</AppText>
+        </TouchableOpacity>
 
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TextInput
@@ -50,14 +56,15 @@ export const AddProductScreen = ({ navigation, route }) => {
           <Text style={styles.price}>{product.measure} </Text>
         </View>
 
-        <View style={{flexDirection: 'row', alignItems:'center'}}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TextInput style={styles.price} >{price}</TextInput>
-          <Text> грн.</Text>
+          <AppText> грн.</AppText>
         </View>
       </View>
 
-      <Text style={styles.price}>Цена за единицу: {price} грн.</Text>
-      <Text style={styles.price}>Общая сумма {price * count}</Text>
+      <AppText >Цена за единицу: {price} грн.</AppText>
+      <AppText >Общая сумма {price * count}</AppText>
+
     </ScrollView>
   )
 }
@@ -99,5 +106,11 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     marginBottom: 15
+  },
+  button: {
+    borderWidth: 1,
+    borderColor: Colors.color7,
+    alignItems: 'center',
+    width: 25
   }
 })

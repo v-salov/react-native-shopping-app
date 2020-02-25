@@ -6,6 +6,7 @@ import { MainScreen } from "../screens/main-screen"
 import { CardScreen } from "../screens/card-screen"
 import { CreateCardScreen } from "../screens/create-card-screen"
 import { AddProductScreen } from "../screens/add-product-screen"
+import { CreateProductScreen } from "../screens/create-product-screen"
 import Colors from "../constants/colors"
 
 const Stack = createStackNavigator()
@@ -60,6 +61,11 @@ export default function() {
         <Stack.Screen
           name="AddProduct"
           component={AddProductScreen}
+          options={configOptions}
+        />
+        <Stack.Screen
+          name="CreateProduct"
+          component={CreateProductScreen}
           options={configOptions}
         />
       </Stack.Navigator>
