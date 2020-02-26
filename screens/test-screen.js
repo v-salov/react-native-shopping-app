@@ -1,38 +1,24 @@
-import React, {useState} from "react";
-import {View, Text, StyleSheet} from "react-native";
-import { SwipeListView } from 'react-native-swipe-list-view';
+import React, { useState } from "react"
+import { View, Text, StyleSheet } from "react-native"
+import { Col, Row, Grid } from "react-native-easy-grid"
 
 export default () => {
-  const [listViewData, setListViewData] = useState([
-    'Привет', 'Как дела?'
-    ])
   return (
-    <SwipeListView
-      data={listViewData}
-      renderItem={ (data, rowMap) => (
-        <View style={styles.rowFront} key={data.item}>
-          <Text>I am {data.item} in a SwipeListView</Text>
-        </View>
-      )}
-      keyExtractor={data=>data.item}
-
-      renderHiddenItem={ (data, rowMap) => (
-        <View style={styles.rowBack}>
-          <Text>Left</Text>
-          <Text>Right</Text>
-        </View>
-      )}
-      leftOpenValue={75}
-      rightOpenValue={-75}
-    />
+    <Grid>
+      <Row>
+        <Col>
+          <Text>COL1</Text>
+        </Col>
+        <Col>
+          <Text>COL2</Text>
+        </Col>
+        <Col>
+          <Text>COL3</Text>
+        </Col>
+        <Col>
+          <Text>COL4</Text>
+        </Col>
+      </Row>
+    </Grid>
   )
-
 }
-const styles = StyleSheet.create({
-  rowFront: {
-
-  },
-  rowBack: {
-
-  }
-})
