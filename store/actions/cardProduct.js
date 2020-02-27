@@ -3,17 +3,18 @@ import {
   EDIT_PRODUCT_IN_CARD,
   REMOVE_PRODUCT_FROM_CARD
 } from "../types"
+import idGenerator from "../../core/idGenerator"
 
 export const editProductInCard = (product) => dispatch => {
   if (!product.id) {
+    console.log(product)
     product = {
       ...product,
-      idTemp: Math.random().toString()
+      id: idGenerator()
     }
     dispatch({
       type: ADD_PRODUCT_TO_CARD,
-      product,
-      idCard
+      payload: product
     })
   } else {
     dispatch({

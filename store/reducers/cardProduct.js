@@ -15,12 +15,7 @@ export const cardProductReducer = (state = initialState, action) => {
     case ADD_PRODUCT_TO_CARD:
       return {
         ...state,
-        cards: state.cards.map(card => {
-          if (card.id === action.idCard) {
-            card.cardProducts = [...card.cardProducts, action.product]
-          }
-          return card
-        })
+        cardProducts: [...state.cardProducts, action.payload]
       }
     case EDIT_PRODUCT_IN_CARD:
       return {

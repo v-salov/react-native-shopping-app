@@ -5,7 +5,7 @@ import Colors from "../../constants/colors"
 export const AppPicker = props => {
   return (
     <Picker
-      style={[ styles.picker, props.style ]}
+      style={[ styles.default, props.style ]}
       {...props}
     >
       {props.children}
@@ -14,7 +14,7 @@ export const AppPicker = props => {
 }
 
 const styles = StyleSheet.create({
-  picker: {
+  default: {
     color: "#FFF",
     backgroundColor: Colors.color2,
     

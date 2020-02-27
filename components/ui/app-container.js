@@ -10,6 +10,7 @@ export const AppContainer = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.mainBackgroundColor
+    backgroundColor: Colors.mainBackgroundColor,
+    padding:5
   }
 })

@@ -6,7 +6,7 @@ export const AppInput = props => {
   return (
     <TextInput
       placeholderTextColor={Colors.color1}
-      style={{ ...styles.input, ...props.style }}
+      style={[styles.input, props.style ]}
       {...props}
     ></TextInput>
   )

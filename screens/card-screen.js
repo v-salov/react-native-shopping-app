@@ -62,8 +62,9 @@ export const CardScreen = ({ navigation, route }) => {
     dispatch(editProductInCard(newPr))
   }
 
-  const onEditName = (name, product) => {
-    const newPr = { ...product, name}
+  const onEditName = (p, product) => {
+    const newPr = { ...product, name:p.name, price: p.price}
+    console.log(newPr)
     dispatch(editProductInCard(newPr))
   }
 
@@ -95,12 +96,12 @@ export const CardScreen = ({ navigation, route }) => {
             selectedValue={product.name}
             style={styles.pickerStyle}
             mode="dropdown"
-            onValueChange={name => onEditName(name, product)}
+            onValueChange={p => onEditName(p, product)}
           >
             {products.map(p => (
               <Picker.Item
                 label={p.name}
-                value={p.name}
+                value={p}
                 key={p.id}
               ></Picker.Item>
             ))}
