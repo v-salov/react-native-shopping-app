@@ -63,7 +63,7 @@ export const CardScreen = ({ navigation, route }) => {
   }
 
   const onEditName = (p, product) => {
-    const newPr = { ...product, name:p.name, price: p.price}
+    const newPr = { ...product, price: p.price,measure:p.measure, idProduct: p.id }
     console.log(newPr)
     dispatch(editProductInCard(newPr))
   }
@@ -85,6 +85,7 @@ export const CardScreen = ({ navigation, route }) => {
   }
 
   const renderProducts = product => {
+    const selectedValue = products.find(pr => pr.id === product.idProduct)
     return (
       <Swipeable
         renderRightActions={renderRightActions}
@@ -93,7 +94,7 @@ export const CardScreen = ({ navigation, route }) => {
       >
         <View style={styles.product}>
           <Picker
-            selectedValue={product.name}
+            selectedValue={selectedValue}
             style={styles.pickerStyle}
             mode="dropdown"
             onValueChange={p => onEditName(p, product)}
@@ -106,13 +107,16 @@ export const CardScreen = ({ navigation, route }) => {
               ></Picker.Item>
             ))}
           </Picker>
-          <TextInput
-            style={styles.prod}
-            keyboardType="numeric"
-            onEndEditing={e => onEditCount(e, product)}
-          >
-            {product.count}
-          </TextInput>
+          <View syle={{ flexDirection: 'row', borderWidth: 1, borderColor:'white' }}>
+            <TextInput
+              style={styles.prod}
+              keyboardType="numeric"
+              onEndEditing={e => onEditCount(e, product)}
+            >
+              {product.count}
+            </TextInput>
+            <Text style={{color: 'white'}}>{product.measure}</Text>
+          </View>
           <TextInput
             style={styles.prod}
             keyboardType="numeric"
@@ -120,8 +124,8 @@ export const CardScreen = ({ navigation, route }) => {
           >
             {product.price}
           </TextInput>
-          <View style={{justifyContent: 'center'}}>
-          <Text style={styles.prod}>{product.price * product.count} грн.</Text>
+          <View style={{ justifyContent: 'center' }}>
+            <Text style={styles.prod}>{product.price * product.count} грн.</Text>
           </View>
         </View>
       </Swipeable>
@@ -143,11 +147,11 @@ export const CardScreen = ({ navigation, route }) => {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       ) : (
-        <Text style={styles.title}>Добавить товары</Text>
-      )}
+          <Text style={styles.title}>Добавить товары</Text>
+        )}
 
       <AppButtonPlus
-        onPress={() => navigation.navigate("AddProduct", { idCard:cardId })}
+        onPress={() => navigation.navigate("AddProduct", { idCard: cardId })}
       />
       <View style={styles.totalPrice}>
         <Text style={styles.totalPriceText}>

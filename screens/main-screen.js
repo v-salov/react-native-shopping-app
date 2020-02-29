@@ -55,48 +55,34 @@ export const MainScreen = ({ navigation }) => {
     )
   }
 
+  const handlerLeftActions = () => (
+    <View style={styles.rightActions}>
+      <Text style={styles.actionText}>
+        EDIT
+      </Text>
+    </View>
+  )
+
+  const handlerRightActions = () => {
+    return (<View
+      style={styles.rightActions}
+    >
+      <Text
+        style={{
+          color: "#fff",
+          fontFamily: "roboto-regular",
+          fontSize: 17
+        }}
+      >
+        DEL
+      </Text>
+    </View>)
+  }
+
   const CardItem = ({ card }) => (
     <Swipeable
-      renderLeftActions={() => (
-        <View
-          style={{
-            backgroundColor: "red",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 50
-          }}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontFamily: "roboto-regular",
-              fontSize: 17
-            }}
-          >
-            DEL
-          </Text>
-        </View>
-      )}
-      renderRightActions={() => (
-        <View
-          style={{
-            backgroundColor: "green",
-            justifyContent: "center",
-            alignItems: "center",
-            width: 50
-          }}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontFamily: "roboto-regular",
-              fontSize: 17
-            }}
-          >
-            EDIT
-          </Text>
-        </View>
-      )}
+      renderLeftActions={handlerLeftActions}
+      renderRightActions={handlerRightActions}
       onSwipeableLeftWillOpen={onRemoveCard}
       onSwipeableRightWillOpen={() => onEditCard(card)}
       overshootLeft={false}
@@ -127,23 +113,24 @@ export const MainScreen = ({ navigation }) => {
 
   return (
     <View style={styles.wrapper}>
-      {cards.length ? (
-        <FlatList
-          data={cards}
-          keyExtractor={post => post.id.toString()}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          renderItem={({ item }) => (
-            <CardItem
-              card={item}
-              onOpen={() => {
-                console.log(11)
-              }}
-            />
-          )}
-        />
-      ) : (
-        <Text style={styles.noItems}>Покупок пока нет</Text>
-      )}
+      {cards.length
+        ? (
+          <FlatList
+            data={cards}
+            keyExtractor={post => post.id.toString()}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            renderItem={({ item }) => (
+              <CardItem
+                card={item}
+                onOpen={() => {
+                  console.log(11)
+                }}
+              />
+            )}
+          />
+        )
+        : <Text style={styles.noItems}>Покупок пока нет</Text>
+      }
       <AppButtonPlus onPress={() => navigation.navigate("CreateCard")} />
     </View>
   )
@@ -184,5 +171,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#C4C6CE",
     marginTop: 4
+  },
+  leftActions: {
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50
+  },
+
+  rightActions: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50
+  },
+
+  actionText: {
+    color: "#fff",
+    fontFamily: "roboto-regular",
+    fontSize: 17
   }
 })

@@ -30,7 +30,7 @@ export const AddProductScreen = ({ navigation, route }) => {
   const save = () => {
     const cardProduct = {
       idCard,
-      name: product.name,
+      idProduct: product.id,
       measure: product.measure,
       count,
       price,
@@ -47,7 +47,7 @@ export const AddProductScreen = ({ navigation, route }) => {
       <View style={styles.productContainer}>
         <Picker
           selectedValue={product}
-          onValueChange={p => setProduct(p)}
+          onValueChange={p => {setProduct(p); setPrice(p.price)}}
           mode="dropdown"
           style={styles.name}
         >

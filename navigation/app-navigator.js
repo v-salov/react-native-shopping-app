@@ -39,40 +39,52 @@ const configOptions = {
     textAlign: "center"
   }
 }
-
+const propsTest = {
+  name:"TestScreen",
+  component:{TestScreen},
+  options:{
+    title: 'ТЕСТ',
+  }
+}
 export default function() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home" screenOptions={configOptions}>
+      
         <Stack.Screen
           name="Home"
           component={MainScreen}
-          options={configOptions}
+          options={{title: 'Покупки'}}
         />
         <Stack.Screen
           name="Card"
           component={CardScreen}
-          options={configOptions}
+          options={{title: 'Список покупок'}}
         />
         <Stack.Screen
           name="CreateCard"
           component={CreateCardScreen}
-          options={configOptions}
+          options={{title:'Создание карточки'}}
         />
         <Stack.Screen
           name="AddProduct"
           component={AddProductScreen}
-          options={configOptions}
+          options={{title:'Добавление продукта'}}
+
         />
         <Stack.Screen
           name="CreateProduct"
           component={CreateProductScreen}
-          options={configOptions}
+          options={{title:'Создание продукта'}}
+
         />
          <Stack.Screen
-          name="TestScreen"
+          name="Test"
           component={TestScreen}
-          options={configOptions}
+          options={{
+            title: 'ТЕСТ',
+            
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
