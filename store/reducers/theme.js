@@ -1,15 +1,14 @@
-import {CREATE_PRODUCT, TOGGLE_THEME} from "../types";
+import { TOGGLE_THEME } from '../types'
 
 const initialState = {
-  mode: 'dark'
+  isDark: true
 }
 
 export const themeReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_THEME:
       return {
-        ...state,
-        mode: state.mode === 'dark' ? 'light' : 'dark'
+        isDark: action.payload
       }
     default:
       return state

@@ -1,4 +1,3 @@
-
 const palette = {
   palette01: '#EBECF4',
   palette02: '#000000',
@@ -14,8 +13,7 @@ const palette = {
   palette12: '#3E464B',
   palette13: '#3E464B',
   palette14: '#2F97DD',
-  palette15: '#31A8F8',
-
+  palette15: '#31A8F8'
 }
 export const colors = {
   separatorColor: palette.palette04
@@ -23,18 +21,30 @@ export const colors = {
 export const themedColors = {
   primaryText: {
     light: palette.palette02,
-    dark: palette.palette01,
-
+    dark: palette.palette01
   },
   primaryBackground: {
     light: palette.palette01,
-    dark: palette.palette02,
+    dark: palette.palette02
   },
-}
-export const getTheme = (mode) => {
-  let Theme = {};
-  for (let key in themedColors) {
-    Theme[key] = themedColors[key][mode];
+  separator: {
+    light: palette.palette05,
+    dark: palette.palette05
+  },
+  date: {
+    light: palette.palette12,
+    dark: palette.palette07
+  },
+  button: {
+    light: palette.palette14,
+    dark: palette.palette03
   }
-  return Theme;
-};
+}
+export const getTheme = value => {
+  const mode = value ? 'dark' : 'light'
+  let Theme = {}
+  for (let key in themedColors) {
+    Theme[key] = themedColors[key][mode]
+  }
+  return Theme
+}

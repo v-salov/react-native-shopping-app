@@ -1,5 +1,3 @@
-import {TOGGLE_THEME} from "../types";
+import { TOGGLE_THEME } from '../types'
 
-
-export const toggleTheme = () => ({type: TOGGLE_THEME})
-
+export const toggleTheme = value => ({ type: TOGGLE_THEME, payload: value })
