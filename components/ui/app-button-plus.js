@@ -2,7 +2,7 @@ import React from "react";
 import {TouchableOpacity, View, StyleSheet} from 'react-native'
 import {Entypo} from "@expo/vector-icons";
 import Colors from "../../constants/colors";
-
+import { useTheme } from '@react-navigation/native';
 export const AppButtonPlus = (props) => {
   return (
       <TouchableOpacity {...props} style={styles.button} activeOpacity={0.7}>

@@ -1,11 +1,13 @@
 import React from "react";
+import { useTheme } from '@react-navigation/native';
 import {TouchableOpacity, View, StyleSheet, Text} from 'react-native'
 import Colors from "../../constants/colors";
-
 export const AppButton = (props) => {
+  const { colors } = useTheme();
+
   return (
       <TouchableOpacity {...props} style={[styles.button, props.style]} activeOpacity={0.7}>
-        <Text style={styles.buttonText}>{props.children}</Text>
+        <Text style={{color: colors.text}}>{props.children}</Text>
       </TouchableOpacity>
   )
 }

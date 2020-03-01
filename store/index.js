@@ -6,11 +6,13 @@ import thunk from 'redux-thunk'
 import { cardReducer } from './reducers/card'
 import {productReducer} from "./reducers/product";
 import {cardProductReducer} from "./reducers/cardProduct";
+import {themeReducer} from "./reducers/theme";
 
 const rootReducer = combineReducers({
   card: cardReducer,
   product: productReducer,
-  cardProduct: cardProductReducer
+  cardProduct: cardProductReducer,
+  theme: themeReducer
 })
 
 const persistConfig = {
