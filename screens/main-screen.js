@@ -7,21 +7,32 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Text,
-  FlatList
+  FlatList, Switch
 } from 'react-native'
-
-import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { AppButtonPlus } from '../components/ui/app-button-plus'
 import { useTheme } from '@react-navigation/native'
+import {Ionicons} from '@expo/vector-icons' 
+import Swipeable from 'react-native-gesture-handler/Swipeable'
+import {toggleTheme} from '../store/actions/theme'
+import { AppButtonPlus } from '../components/ui/app-button-plus'
 import moment from 'moment'
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
   const dispatch = useDispatch()
   const { colors } = useTheme()
-
   const cards = useSelector(state => state.card.cards)
 
+  const isDark = useSelector(state => state.theme.isDark)
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Switch
+          value={isDark}
+          onValueChange={value => dispatch(toggleTheme(value))}
+        />
+      )
+    })
+  }, [isDark])
   const openCardHandler = card => {
     navigation.navigate('Card', {
       cardId: card.id,
@@ -63,8 +74,8 @@ export const MainScreen = ({ navigation }) => {
 
   const handlerRightActions = () => {
     return (
-      <View style={[styles.rightActions, { backgroundColor: colors.primary }]}>
-        <Text style={[styles.actionText, { color: colors.text }]}>DEL</Text>
+      <View style={[styles.rightActions, { backgroundColor: colors.buttonDanger }]}>
+                <Ionicons name="ios-trash" size={32} color="white" />
       </View>
     )
   }

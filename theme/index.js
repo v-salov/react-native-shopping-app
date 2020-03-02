@@ -13,7 +13,8 @@ const palette = {
   palette12: '#3E464B',
   palette13: '#3E464B',
   palette14: '#2F97DD',
-  palette15: '#31A8F8'
+  palette15: '#31A8F8',
+  palette16: '#F61F4D'
 }
 export const colors = {
   separatorColor: palette.palette04
@@ -38,7 +39,16 @@ export const themedColors = {
   button: {
     light: palette.palette14,
     dark: palette.palette03
-  }
+  },
+  buttonDanger: {
+    light: palette.palette16,
+    dark: palette.palette16
+  },
+  cardProduct: {
+    light: 'transparent',
+    dark: palette.palette08
+  },
+
 }
 export const getTheme = value => {
   const mode = value ? 'dark' : 'light'

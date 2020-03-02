@@ -14,7 +14,7 @@ import { CreateCardScreen } from '../screens/create-card-screen'
 import { AddProductScreen } from '../screens/add-product-screen'
 import { CreateProductScreen } from '../screens/create-product-screen'
 import TestScreen from '../screens/test-screen'
-import { colors, themedColors } from '../theme'
+import { getTheme } from '../theme'
 
 const Stack = createStackNavigator()
 
@@ -25,18 +25,17 @@ export default function() {
     ? {
         ...DarkTheme,
         colors: {
-          ...DarkTheme,
-          ...themedColors(isDark)
+          ...DarkTheme.colors,
+          ...getTheme(isDark)
         }
       }
     : {
         ...DefaultTheme,
         colors: {
-          ...DefaultTheme,
-          ...themedColors(isDark)
+          ...DefaultTheme.colors,
+          ...getTheme(isDark)
         }
       }
-
   const configOptions = {
     headerTitleStyle: {
       fontFamily: 'roboto-bold',
@@ -46,7 +45,7 @@ export default function() {
   return (
     <AppearanceProvider>
       <NavigationContainer theme={theme}>
-        <Stack.Navigator initialRouteName="Test">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={MainScreen}

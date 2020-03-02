@@ -1,16 +1,16 @@
-import { AppLoading } from 'expo'
-import React, { useState } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Provider } from 'react-redux'
-import AppNavigator from './navigation/app-navigator'
-import { PersistGate } from 'redux-persist/integration/react'
+import { AppLoading } from "expo"
+import React, { useState } from "react"
+import { StyleSheet, View } from "react-native"
+import { Provider } from "react-redux"
+import AppNavigator from "./navigation/app-navigator"
+import { PersistGate } from "redux-persist/integration/react"
 import {
   handleFinishLoading,
   handleLoadingError,
   loadResourcesAsync
-} from './bootstrap'
-import { store, persistor } from './store'
-import { useTheme } from '@react-navigation/native'
+} from "./bootstrap"
+import { store, persistor } from "./store"
+import { useTheme } from "@react-navigation/native"
 
 export default function App(props) {
   const { colors } = useTheme()
@@ -28,7 +28,7 @@ export default function App(props) {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <View style={styles.container}>
+          <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>
             <AppNavigator />
           </View>
         </PersistGate>
@@ -38,8 +38,5 @@ export default function App(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundColor
-  }
+  container: {}
 })

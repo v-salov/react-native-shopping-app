@@ -13,10 +13,13 @@ import Swipeable from "react-native-gesture-handler/Swipeable"
 import moment from "moment"
 import { AppButtonPlus } from "../components/ui/app-button-plus"
 import Colors from "../constants/colors"
+import {useTheme} from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons';
 
 import { editProductInCard, removeProductFromCard } from "../store/actions/cardProduct"
 
 export const CardScreen = ({ navigation, route }) => {
+  const {colors} = useTheme()
   const dispatch = useDispatch()
   const { cardId } = route.params
 
@@ -64,22 +67,13 @@ export const CardScreen = ({ navigation, route }) => {
 
   const onEditName = (p, product) => {
     const newPr = { ...product, price: p.price,measure:p.measure, idProduct: p.id }
-    console.log(newPr)
     dispatch(editProductInCard(newPr))
   }
 
   const renderRightActions = () => {
     return (
-      <View style={styles.leftAction}>
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "roboto-regular",
-            fontSize: 17
-          }}
-        >
-          DEL
-        </Text>
+      <View style={[styles.action, {backgroundColor: colors.buttonDanger}]}>
+        <Ionicons name="ios-trash" size={32} color="white" />
       </View>
     )
   }
@@ -92,7 +86,7 @@ export const CardScreen = ({ navigation, route }) => {
         onSwipeableRightWillOpen={() => onRemoveProductFromCard(product.id)}
         overshootRight={false}
       >
-        <View style={styles.product}>
+        <View style={[styles.product, {backgroundColor: colors.cardProduct}]}>
           <Picker
             selectedValue={selectedValue}
             style={styles.pickerStyle}
@@ -167,7 +161,6 @@ export const CardScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     padding: 5
   },
   separator: {
@@ -196,7 +189,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.color4,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderRadius: 10
+    padding: 5
   },
   prod: {
     fontFamily: "roboto-regular",
@@ -214,23 +207,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  leftAction: {
-    backgroundColor: "red",
-    borderRadius: 10,
+  action: {
     justifyContent: "center",
     alignItems: "center",
     width: 50
   },
-  rightAction: {
-    backgroundColor: "#57ff1f",
-    borderRadius: 5,
-    height: 37,
-    top: 7
-  },
+  
   actionText: {
-    padding: 10,
-    color: "#fff",
-    fontFamily: "roboto-regular"
+    fontFamily: "roboto-regular",
+    fontSize: 16
   },
   totalPrice: {
     position: "absolute",
