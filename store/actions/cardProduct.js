@@ -8,7 +8,6 @@ import idGenerator from "../../core/idGenerator"
 
 export const editProductInCard = (product) => dispatch => {
   if (!product.id) {
-    console.log(product)
     product = {
       ...product,
       id: idGenerator()

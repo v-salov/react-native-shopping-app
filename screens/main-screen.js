@@ -15,10 +15,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable'
 import {toggleTheme} from '../store/actions/theme'
 import { AppButtonPlus } from '../components/ui/app-button-plus'
 import moment from 'moment'
-  FlatList,
-  TextInput,
-  Alert
-} from "react-native"
+
 import { renameCard, removeCard } from "../store/actions/card"
 import { removeCardProductById } from "../store/actions/cardProduct"
 import Swipeable from "react-native-gesture-handler/Swipeable"
@@ -56,7 +53,7 @@ export const MainScreen = ({ navigation }) => {
     dispatch(renameCard(id, name))
   }
 
-  const onRemoveCard = () => {
+  const onRemoveCard = (id) => {
     Alert.alert(
       "Удаление карточки",
       "Вы действительно желаете удалить карточку?",
@@ -79,14 +76,14 @@ export const MainScreen = ({ navigation }) => {
   }
 
   const handlerLeftActions = () => (
-    <View style={styles.rightAction}>
+    <View style={styles.action}>
       <Text style={styles.actionText}>EDIT</Text>
     </View>
   )
 
   const handlerRightActions = () => {
     return (
-      <View style={[styles.rightAction, { backgroundColor: colors.buttonDanger }]}>
+      <View style={[styles.action, { backgroundColor: colors.buttonDanger }]}>
                 <Ionicons name="ios-trash" size={32} color="white" />
       </View>
     )
@@ -97,7 +94,7 @@ export const MainScreen = ({ navigation }) => {
       renderLeftActions={handlerLeftActions}
       renderRightActions={handlerRightActions}
       onSwipeableLeftWillOpen={()=>onRemoveCard(card.id)}
-      onSwipeableRightWillOpen={() => onEditCard(card)}
+      onSwipeableRightWillOpen={() => onRename(card.id, card.name)}
       overshootLeft={false}
       overshootRight={false}
     >
@@ -180,10 +177,7 @@ const styles = StyleSheet.create({
     marginTop: 4
   },
 
-
-
-  leftAction: {
-    backgroundColor: "red",
+  action: {
     justifyContent: "center",
     alignItems: "center",
     width: 50
@@ -192,11 +186,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "roboto-regular",
     fontSize: 17
-  },
-  rightAction: {
-    backgroundColor: "green",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 50
   }
 })

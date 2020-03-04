@@ -54,13 +54,13 @@ export const CardScreen = ({ navigation, route }) => {
   }
 
   const onEditProduct = (value, product, op) => {
-    console.log('onEDITPR',value, product, op )
     let newPr
-    if (op === "count") newPr = { ...product, count: +value }
-    else if (op === "price") newPr = { ...product, price: +value }
+    if (op === "count") newPr = {...product, count: +value}
+    else if (op === "price") newPr = {...product, price: +value}
+  }
 
   const onEditName = (p, product) => {
-    const newPr = { ...product, price: p.price,measure:p.measure, idProduct: p.id }
+    const newPr = { ...product, price: p.price, measure:p.measure, idProduct: p.id }
     dispatch(editProductInCard(newPr))
   }
 
@@ -98,19 +98,20 @@ export const CardScreen = ({ navigation, route }) => {
           <TextInput
             style={styles.prod}
             keyboardType="numeric"
-            onEndEditing={e => onEditCount(e, product)}
+            onEndEditing={e => onEditProduct(e.nativeEvent.text, product, 'count')}
           >
             {product.count}
           </TextInput>
           <TextInput
             style={styles.prod}
             keyboardType="numeric"
-            onEndEditing={e => onEditPrice(e, product)}
+            onEndEditing={e => onEditProduct(e.nativeEvent.text, product, 'price')}
+
           >
             {product.price}
           </TextInput>
           <View style={{justifyContent: 'center'}}>
-          <Text style={styles.prod}>{product.price * product.count} грн.</Text>
+          <Text style={styles.prod}>{product.price * product.count} грн</Text>
           </View>
         </View>
       </Swipeable>
