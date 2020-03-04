@@ -2,8 +2,17 @@ import * as FileSystem from "expo-file-system"
 import {
   CREATE_CARD,
   REMOVE_CARD,
-  EDIT_CARD
+  EDIT_CARD,
+  RENAME_CARD
 } from "../types"
+
+export const renameCard = (id, name) => dispatch => {
+  console.log('CARD_ACTION_RENAME_CARD',id, name)
+  dispatch({
+    type: RENAME_CARD,
+    id, name
+  })
+}
 
 
 export const createCard = card => dispatch => {

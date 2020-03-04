@@ -1,5 +1,5 @@
 import { cards } from "../../data"
-import { CREATE_CARD, REMOVE_CARD, EDIT_CARD } from "../types"
+import { CREATE_CARD, REMOVE_CARD, EDIT_CARD, RENAME_CARD } from "../types"
 
 const initialState = {
   cards,
@@ -28,6 +28,16 @@ export const cardReducer = (state = initialState, action) => {
         cards: state.cards.map(c => {
           if (c.id === action.payload.id) {
             c = action.payload
+          }
+          return c
+        })
+      }
+      case RENAME_CARD:
+      return {
+        ...state,
+        cards: state.cards.map(c => {
+          if (c.id === action.id) {
+            c.name = action.name
           }
           return c
         })

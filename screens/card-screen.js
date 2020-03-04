@@ -53,17 +53,11 @@ export const CardScreen = ({ navigation, route }) => {
     )
   }
 
-  const onEditCount = (e, product) => {
-    const count = +e.nativeEvent.text
-    const newPr = { ...product, count }
-    dispatch(editProductInCard(newPr))
-  }
-
-  const onEditPrice = (e, product) => {
-    const price = +e.nativeEvent.text
-    const newPr = { ...product, price }
-    dispatch(editProductInCard(newPr))
-  }
+  const onEditProduct = (value, product, op) => {
+    console.log('onEDITPR',value, product, op )
+    let newPr
+    if (op === "count") newPr = { ...product, count: +value }
+    else if (op === "price") newPr = { ...product, price: +value }
 
   const onEditName = (p, product) => {
     const newPr = { ...product, price: p.price,measure:p.measure, idProduct: p.id }
@@ -101,16 +95,13 @@ export const CardScreen = ({ navigation, route }) => {
               ></Picker.Item>
             ))}
           </Picker>
-          <View syle={{ flexDirection: 'row', borderWidth: 1, borderColor:'white' }}>
-            <TextInput
-              style={styles.prod}
-              keyboardType="numeric"
-              onEndEditing={e => onEditCount(e, product)}
-            >
-              {product.count}
-            </TextInput>
-            <Text style={{color: 'white'}}>{product.measure}</Text>
-          </View>
+          <TextInput
+            style={styles.prod}
+            keyboardType="numeric"
+            onEndEditing={e => onEditCount(e, product)}
+          >
+            {product.count}
+          </TextInput>
           <TextInput
             style={styles.prod}
             keyboardType="numeric"
@@ -118,8 +109,8 @@ export const CardScreen = ({ navigation, route }) => {
           >
             {product.price}
           </TextInput>
-          <View style={{ justifyContent: 'center' }}>
-            <Text style={styles.prod}>{product.price * product.count} грн.</Text>
+          <View style={{justifyContent: 'center'}}>
+          <Text style={styles.prod}>{product.price * product.count} грн.</Text>
           </View>
         </View>
       </Swipeable>
@@ -141,11 +132,11 @@ export const CardScreen = ({ navigation, route }) => {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       ) : (
-          <Text style={styles.title}>Добавить товары</Text>
-        )}
+        <Text style={styles.title}>Добавить товары</Text>
+      )}
 
       <AppButtonPlus
-        onPress={() => navigation.navigate("AddProduct", { idCard: cardId })}
+        onPress={() => navigation.navigate("AddProduct", { idCard:cardId })}
       />
       <View style={styles.totalPrice}>
         <Text style={styles.totalPriceText}>
@@ -212,7 +203,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 50
   },
-  
+
   actionText: {
     fontFamily: "roboto-regular",
     fontSize: 16

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import {
   View,
@@ -10,11 +10,22 @@ import {
   FlatList, Switch
 } from 'react-native'
 import { useTheme } from '@react-navigation/native'
-import {Ionicons} from '@expo/vector-icons' 
+import {Ionicons} from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import {toggleTheme} from '../store/actions/theme'
 import { AppButtonPlus } from '../components/ui/app-button-plus'
 import moment from 'moment'
+  FlatList,
+  TextInput,
+  Alert
+} from "react-native"
+import { renameCard, removeCard } from "../store/actions/card"
+import { removeCardProductById } from "../store/actions/cardProduct"
+import Swipeable from "react-native-gesture-handler/Swipeable"
+import { AppButtonPlus } from "../components/ui/app-button-plus"
+import Colors from "../constants/colors"
+
+import moment from "moment"
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
@@ -34,32 +45,33 @@ export const MainScreen = ({ navigation }) => {
     })
   }, [isDark])
   const openCardHandler = card => {
-    navigation.navigate('Card', {
+    navigation.navigate("Card", {
       cardId: card.id,
       name: card.name,
-      date: card.date
+      date: card.date,
     })
   }
 
-  const onEditCard = card => {
-    navigation.navigate('CreateCard', {
-      cardId: card.id
-    })
+  const onRename = (id, name) => {
+    dispatch(renameCard(id, name))
   }
 
   const onRemoveCard = () => {
     Alert.alert(
-      'Удаление карточки',
-      'Вы действительно желаете удалить карточку?',
+      "Удаление карточки",
+      "Вы действительно желаете удалить карточку?",
       [
         {
-          text: 'Отмена',
-          onPress: () => console.log('Вы отменили удаление'),
-          style: 'cancel'
+          text: "Отмена",
+          onPress: () => console.log("Вы отменили удаление"),
+          style: "cancel"
         },
         {
-          text: 'OK',
-          onPress: () => dispatch(removeCard(card.id))
+          text: "OK",
+          onPress: () => {
+            dispatch(removeCard(id))
+            dispatch(removeCardProductById(id))
+          }
         }
       ],
       { cancelable: false }
@@ -67,14 +79,14 @@ export const MainScreen = ({ navigation }) => {
   }
 
   const handlerLeftActions = () => (
-    <View style={styles.rightActions}>
+    <View style={styles.rightAction}>
       <Text style={styles.actionText}>EDIT</Text>
     </View>
   )
 
   const handlerRightActions = () => {
     return (
-      <View style={[styles.rightActions, { backgroundColor: colors.buttonDanger }]}>
+      <View style={[styles.rightAction, { backgroundColor: colors.buttonDanger }]}>
                 <Ionicons name="ios-trash" size={32} color="white" />
       </View>
     )
@@ -84,7 +96,7 @@ export const MainScreen = ({ navigation }) => {
     <Swipeable
       renderLeftActions={handlerLeftActions}
       renderRightActions={handlerRightActions}
-      onSwipeableLeftWillOpen={onRemoveCard}
+      onSwipeableLeftWillOpen={()=>onRemoveCard(card.id)}
       onSwipeableRightWillOpen={() => onEditCard(card)}
       overshootLeft={false}
       overshootRight={false}
@@ -95,11 +107,9 @@ export const MainScreen = ({ navigation }) => {
         >
           <View style={styles.card}>
             <View>
-              <Text style={[styles.name, { color: colors.text }]}>
-                {card.name}
-              </Text>
-              <Text style={[styles.timestamp, { color: colors.date }]}>
-                {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
+              <Text style={styles.name}>{card.name}</Text>
+              <Text style={styles.timestamp}>
+                {moment(card.timestamp).format("DD.MM.YY, h:mm:ss")}
               </Text>
             </View>
           </View>
@@ -163,29 +173,30 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'roboto-bold',
     fontSize: 17,
-    fontWeight: '500',
     textAlign: 'center'
   },
   timestamp: {
     fontSize: 14,
     marginTop: 4
   },
-  leftActions: {
-    backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+
+
+  leftAction: {
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
     width: 50
   },
-
-  rightActions: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50
-  },
-
   actionText: {
-    color: '#fff',
-    fontFamily: 'roboto-regular',
+    color: "#fff",
+    fontFamily: "roboto-regular",
     fontSize: 17
+  },
+  rightAction: {
+    backgroundColor: "green",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 50
   }
 })

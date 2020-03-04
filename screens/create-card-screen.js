@@ -10,14 +10,13 @@ import {
   Keyboard
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
-import { Item, Input } from "native-base"
 import { addCard, editCard } from "../store/actions/card"
 import Colors from "../constants/colors"
 
 export const CreateCardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const cards = useSelector(state => state.card.cards)
-  const { cardId } = route.params
+  const { id } = route.params
   let card = cards.find(c => c.id === cardId)
   const cardName = card ? card.name : ""
   const [name, setName] = useState(cardName)
@@ -28,8 +27,6 @@ export const CreateCardScreen = ({ navigation, route }) => {
         id: Math.random().toString(),
         name,
         date: new Date(),
-        cardProducts: [],
-        price: 0
       }
       dispatch(addCard(card))
       navigation.replace("CreateProduct", { id: card.id })
