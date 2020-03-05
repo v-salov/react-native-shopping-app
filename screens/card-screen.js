@@ -61,7 +61,7 @@ export const CardScreen = ({ navigation, route }) => {
     let newPr
     if (op === 'count') newPr = { ...product, count: +value }
     else if (op === 'price') newPr = { ...product, price: +value }
-    console.log(newPr)
+    dispatch(editProductInCard(newPr))
   }
 
   const onEditName = (p, product) => {
@@ -96,7 +96,7 @@ export const CardScreen = ({ navigation, route }) => {
             style={[
               {
                 width: '40%',
-                backgroundColor: colors.background,
+                backgroundColor: colors.cardProduct,
                 color: colors.text
               }
             ]}
@@ -108,6 +108,7 @@ export const CardScreen = ({ navigation, route }) => {
             ))}
           </Picker>
           <AppTextInput
+            style={{backgroundColor: colors.cardProducts}}
             keyboardType="numeric"
             onEndEditing={e =>
               onEditProduct(e.nativeEvent.text, product, 'count')
@@ -116,6 +117,7 @@ export const CardScreen = ({ navigation, route }) => {
             {product.count}
           </AppTextInput>
           <AppTextInput
+            style={{backgroundColor: colors.cardProducts}}
             keyboardType="numeric"
             onEndEditing={e =>
               onEditProduct(e.nativeEvent.text, product, 'price')

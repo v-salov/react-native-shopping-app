@@ -8,7 +8,7 @@ export const AppText = props => {
     <Text
       style={{
         ...styles.default,
-        backgroundColor: colors.text,
+        color: colors.text,
         ...props.style
       }}
     >
@@ -19,7 +19,8 @@ export const AppText = props => {
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: 'roboto-light',
-    fontSize: 17
+    fontFamily: 'roboto-regular',
+    fontSize: 17,
+    textAlign: 'center'
   }
 })

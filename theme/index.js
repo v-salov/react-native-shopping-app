@@ -14,7 +14,10 @@ const palette = {
   palette13: '#3E464B',
   palette14: '#2F97DD',
   palette15: '#31A8F8',
-  palette16: '#F61F4D'
+  palette16: '#F61F4D',
+  palette17: '#37966F',
+  palette18: '#FFFBE6',
+
 }
 export const colors = {
   separatorColor: palette.palette04
@@ -45,7 +48,7 @@ export const themedColors = {
     dark: palette.palette16
   },
   cardProduct: {
-    light: 'transparent',
+    light: palette.palette01,
     dark: palette.palette08
   },
 

@@ -75,7 +75,7 @@ export const MainScreen = ({ navigation }) => {
 
   const handlerLeftActions = () => (
     <View style={styles.action}>
-      <AppText>EDIT</AppText>
+      <AppText>222</AppText>
     </View>
   )
 
@@ -93,20 +93,18 @@ export const MainScreen = ({ navigation }) => {
       renderRightActions={handlerRightActions}
       onSwipeableLeftWillOpen={() => onRemoveCard(card.id)}
       onSwipeableRightWillOpen={() => onRename(card.id, card.name)}
-      overshootLeft={false}
-      overshootRight={true}
+      overshootLeft={true}
+      overshootRight={false}
     >
       <TouchableOpacity activeOpacity={1} onPress={() => openCardHandler(card)}>
         <View
           style={{ backgroundColor: colors.background, alignItems: 'center' }}
         >
-          <View style={styles.card}>
-            <View>
+          <View style={{padding: 5}}>
               <AppText>{card.name}</AppText>
-              <AppText>
+              <AppText style={{color: colors.date}}>
                 {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
               </AppText>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -122,7 +120,7 @@ export const MainScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }}>
+    <View style={{ flex: 1, backgroundColor: colors.background, marginTop: 10 }}>
       {cards.length ? (
         <FlatList
           data={cards}
@@ -163,12 +161,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontSize: 18
   },
-  card: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 5
-  },
+
   action: {
     justifyContent: 'center',
     alignItems: 'center',
