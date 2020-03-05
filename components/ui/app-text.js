@@ -1,14 +1,25 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
+import { useTheme } from '@react-navigation/native'
 
-export const AppText = props => (
-  <Text style={{ ...styles.default, ...props.style }}>{props.children}</Text>
-)
+export const AppText = props => {
+  const { colors } = useTheme()
+  return (
+    <Text
+      style={{
+        ...styles.default,
+        backgroundColor: colors.text,
+        ...props.style
+      }}
+    >
+      {props.children}
+    </Text>
+  )
+}
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: 'roboto-regular',
-    color: '#FFF',
-    fontSize: 16
+    fontFamily: 'roboto-light',
+    fontSize: 17
   }
 })

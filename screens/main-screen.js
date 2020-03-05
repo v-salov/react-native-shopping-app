@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
   View,
@@ -7,22 +7,20 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Text,
-  FlatList, Switch
+  FlatList,
+  Switch
 } from 'react-native'
 import { useTheme } from '@react-navigation/native'
-import {Ionicons} from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import {toggleTheme} from '../store/actions/theme'
+import { toggleTheme } from '../store/actions/theme'
 import { AppButtonPlus } from '../components/ui/app-button-plus'
+
+import { renameCard, removeCard } from '../store/actions/card'
+import { removeCardProductById } from '../store/actions/cardProduct'
+
 import moment from 'moment'
-
-import { renameCard, removeCard } from "../store/actions/card"
-import { removeCardProductById } from "../store/actions/cardProduct"
-import Swipeable from "react-native-gesture-handler/Swipeable"
-import { AppButtonPlus } from "../components/ui/app-button-plus"
-import Colors from "../constants/colors"
-
-import moment from "moment"
+import { AppText } from '../components/ui'
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
@@ -42,10 +40,10 @@ export const MainScreen = ({ navigation }) => {
     })
   }, [isDark])
   const openCardHandler = card => {
-    navigation.navigate("Card", {
+    navigation.navigate('Card', {
       cardId: card.id,
       name: card.name,
-      date: card.date,
+      date: card.date
     })
   }
 
@@ -53,18 +51,18 @@ export const MainScreen = ({ navigation }) => {
     dispatch(renameCard(id, name))
   }
 
-  const onRemoveCard = (id) => {
+  const onRemoveCard = id => {
     Alert.alert(
-      "Удаление карточки",
-      "Вы действительно желаете удалить карточку?",
+      'Удаление карточки',
+      'Вы действительно желаете удалить карточку?',
       [
         {
-          text: "Отмена",
-          onPress: () => console.log("Вы отменили удаление"),
-          style: "cancel"
+          text: 'Отмена',
+          onPress: () => console.log('Вы отменили удаление'),
+          style: 'cancel'
         },
         {
-          text: "OK",
+          text: 'OK',
           onPress: () => {
             dispatch(removeCard(id))
             dispatch(removeCardProductById(id))
@@ -77,14 +75,14 @@ export const MainScreen = ({ navigation }) => {
 
   const handlerLeftActions = () => (
     <View style={styles.action}>
-      <Text style={styles.actionText}>EDIT</Text>
+      <AppText>EDIT</AppText>
     </View>
   )
 
   const handlerRightActions = () => {
     return (
       <View style={[styles.action, { backgroundColor: colors.buttonDanger }]}>
-                <Ionicons name="ios-trash" size={32} color="white" />
+        <Ionicons name="ios-trash" size={32} color="white" />
       </View>
     )
   }
@@ -93,10 +91,10 @@ export const MainScreen = ({ navigation }) => {
     <Swipeable
       renderLeftActions={handlerLeftActions}
       renderRightActions={handlerRightActions}
-      onSwipeableLeftWillOpen={()=>onRemoveCard(card.id)}
+      onSwipeableLeftWillOpen={() => onRemoveCard(card.id)}
       onSwipeableRightWillOpen={() => onRename(card.id, card.name)}
       overshootLeft={false}
-      overshootRight={false}
+      overshootRight={true}
     >
       <TouchableOpacity activeOpacity={1} onPress={() => openCardHandler(card)}>
         <View
@@ -104,10 +102,10 @@ export const MainScreen = ({ navigation }) => {
         >
           <View style={styles.card}>
             <View>
-              <Text style={styles.name}>{card.name}</Text>
-              <Text style={styles.timestamp}>
-                {moment(card.timestamp).format("DD.MM.YY, h:mm:ss")}
-              </Text>
+              <AppText>{card.name}</AppText>
+              <AppText>
+                {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
+              </AppText>
             </View>
           </View>
         </View>
@@ -147,7 +145,7 @@ export const MainScreen = ({ navigation }) => {
           )}
         />
       ) : (
-        <Text style={styles.noItems}>Покупок пока нет</Text>
+        <AppText style={styles.noItems}>Покупок пока нет</AppText>
       )}
       <AppButtonPlus onPress={() => navigation.navigate('CreateCard')} />
     </View>
@@ -155,6 +153,11 @@ export const MainScreen = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   noItems: {
     textAlign: 'center',
     marginVertical: 10,
@@ -166,25 +169,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5
   },
-
-  name: {
-    fontFamily: 'roboto-bold',
-    fontSize: 17,
-    textAlign: 'center'
-  },
-  timestamp: {
-    fontSize: 14,
-    marginTop: 4
-  },
-
   action: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     width: 50
-  },
-  actionText: {
-    color: "#fff",
-    fontFamily: "roboto-regular",
-    fontSize: 17
   }
 })
