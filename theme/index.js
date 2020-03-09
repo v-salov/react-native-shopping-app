@@ -19,10 +19,30 @@ const palette = {
   palette18: '#FFFBE6',
 
 }
+const materialPalette = {
+  palette01: '#BB86FC',
+  palette02: '#E65100',
+  palette03: '#6200EE',
+  palette04: '#018786',
+  palette05: '#121212',
+  palette06: '#B00020',
+  palette07: '#FFFBE6'
+
+}
 export const colors = {
   separatorColor: palette.palette04
 }
 export const themedColors = {
+  background: {
+    light: materialPalette.palette07,
+    dark: materialPalette.palette05
+  },
+
+  primary: {
+    light: palette.palette02,
+    dark: palette.palette01
+  },
+
   primaryText: {
     light: palette.palette02,
     dark: palette.palette01
@@ -45,7 +65,7 @@ export const themedColors = {
   },
   buttonDanger: {
     light: palette.palette16,
-    dark: palette.palette16
+    dark: materialPalette.palette06
   },
   cardProduct: {
     light: palette.palette01,

@@ -36,6 +36,7 @@ export default function() {
           ...getTheme(isDark)
         }
       }
+      console.log(theme)
   const configOptions = {
     headerTitleStyle: {
       fontFamily: 'roboto-bold',
@@ -45,7 +46,12 @@ export default function() {
   return (
     <AppearanceProvider>
       <NavigationContainer theme={theme}>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Home" screenOptions={{
+          headerStyle: {
+            borderWidth: 1,
+            borderBottomColor: 'rgba(255, 255, 255, 0.38)'
+          },
+        }}>
           <Stack.Screen
             name="Home"
             component={MainScreen}

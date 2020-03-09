@@ -21,11 +21,11 @@ export default ({ navigation }) => {
   const { colors } = useTheme()
   return (
     <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: colors.background
-      }}
-    ></View>
+  style={{
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.background
+  }}
+  />
   )
 }

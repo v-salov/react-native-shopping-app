@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Text,
   FlatList,
-  Switch
+  Switch, TextInput
 } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -101,7 +101,9 @@ export const MainScreen = ({ navigation }) => {
           style={{ backgroundColor: colors.background, alignItems: 'center' }}
         >
           <View style={{padding: 5}}>
-              <AppText>{card.name}</AppText>
+              <TextInput onEndEditing={e => {onRename(card.id, e.nativeEvent.text)}}>
+                <AppText>{card.name}</AppText>
+              </TextInput>
               <AppText style={{color: colors.date}}>
                 {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
               </AppText>

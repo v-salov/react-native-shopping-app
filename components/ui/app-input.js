@@ -5,9 +5,10 @@ import Colors from "../../constants/colors"
 export const AppInput = props => {
   return (
     <TextInput
+      {...props}
       placeholderTextColor={Colors.color1}
       style={[styles.input, props.style ]}
-      {...props}
+
     ></TextInput>
   )
 }

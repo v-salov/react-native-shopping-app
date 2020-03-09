@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -8,68 +8,50 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard
-} from "react-native"
-import { useDispatch, useSelector } from "react-redux"
-import { addCard, editCard } from "../store/actions/card"
-import Colors from "../constants/colors"
+} from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import {AppInput, AppText, AppTextInput} from "../components/ui";
+import {AppButton} from "../components/ui/app-button";
+//import { addCard, editCard } from '../store/actions/card'
+import {useTheme} from '@react-navigation/native'
 
 export const CreateCardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
-  const cards = useSelector(state => state.card.cards)
-  const { id } = route.params
-  let card = cards.find(c => c.id === cardId)
-  const cardName = card ? card.name : ""
-  const [name, setName] = useState(cardName)
-
+  const {colors} = useTheme()
+const [name, setName] = useState('')
   const saveHandler = () => {
-    if (!card) {
-      card = {
-        id: Math.random().toString(),
-        name,
-        date: new Date(),
-      }
-      dispatch(addCard(card))
-      navigation.replace("CreateProduct", { id: card.id })
-    } else {
-      card = {
-        ...card,
-        date: new Date(),
-        name
-      }
-      dispatch(editCard(card))
-      navigation.replace("Card", { cardId: card.id })
+    const card = {
+      id: Math.random().toString(),
+      name,
+      date: new Date()
     }
+    dispatch(addCard(card))
+    navigation.replace('CreateProduct', { id: card.id })
   }
 
   return (
     <ScrollView style={styles.wrapper}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View>
-          <Text style={styles.title}>
-            {card ? "Изменение" : "Добавление"} покупки
-          </Text>
-          <Item
+        <View style={{paddingTop: 10}}>
+          <AppText>
+            Добавление покупки
+          </AppText>
+          <View
             style={{
               marginBottom: 10,
-              borderBottomColor: Colors.separatorColor
+
             }}
           >
-            <Input
+            <AppTextInput
               placeholder="Введите название покупки"
               value={name}
               onChangeText={setName}
-              style={{
-                color: "white",
-                fontFamily: "roboto-regular"
-              }}
+
             />
-          </Item>
-          <Button
-            title={cardId ? "Изменить покупку" : "Создать покупку"}
-            color={Colors.buttonColor}
+          </View>
+          <AppButton
             onPress={saveHandler}
-            disabled={!name}
-          />
+          >Создать</AppButton>
         </View>
       </TouchableWithoutFeedback>
     </ScrollView>
@@ -77,17 +59,8 @@ export const CreateCardScreen = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    padding: 10,
-    backgroundColor: Colors.mainBackgroundColor
-  },
-  title: {
-    fontSize: 20,
-    textAlign: "center",
-    fontFamily: "roboto-regular",
-    marginVertical: 10,
-    color: "white"
-  },
+
+
   name: {
     padding: 10,
     marginBottom: 10
