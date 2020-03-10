@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   Text,
   FlatList,
-  Switch, TextInput
+  Switch,
+  TextInput,
+  Alert
 } from 'react-native'
 import { useTheme } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -20,14 +22,15 @@ import { renameCard, removeCard } from '../store/actions/card'
 import { removeCardProductById } from '../store/actions/cardProduct'
 
 import moment from 'moment'
-import { AppText } from '../components/ui'
+import { AppNum, AppText } from '../components/ui'
+import { LinearGradient } from 'expo-linear-gradient'
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
   const dispatch = useDispatch()
   const { colors } = useTheme()
   const cards = useSelector(state => state.card.cards)
-
+  const cardProducts =useSelector(state=> state.cardProduct.cardProducts)
   const isDark = useSelector(state => state.theme.isDark)
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -87,31 +90,47 @@ export const MainScreen = ({ navigation }) => {
     )
   }
 
-  const CardItem = ({ card }) => (
-    <Swipeable
-      renderLeftActions={handlerLeftActions}
-      renderRightActions={handlerRightActions}
-      onSwipeableLeftWillOpen={() => onRemoveCard(card.id)}
-      onSwipeableRightWillOpen={() => onRename(card.id, card.name)}
-      overshootLeft={true}
-      overshootRight={false}
-    >
-      <TouchableOpacity activeOpacity={1} onPress={() => openCardHandler(card)}>
-        <View
-          style={{ backgroundColor: colors.background, alignItems: 'center' }}
+  const CardItem = ({ card }) => {
+    const cardP = cardProducts.filter(cp => cp.idCard === card.id)
+
+    const total = cardP.reduce((t, item) => {
+      return t + item.price * item.count
+    }, 0)
+    console.log(card)
+    return (
+      <Swipeable
+        renderLeftActions={handlerLeftActions}
+        renderRightActions={handlerRightActions}
+        onSwipeableLeftWillOpen={() => onRemoveCard(card.id)}
+        onSwipeableRightWillOpen={() => onRemoveCard(card.id)}
+        overshootLeft={false}
+        overshootRight={false}
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => openCardHandler(card)}
         >
-          <View style={{padding: 5}}>
-              <TextInput onEndEditing={e => {onRename(card.id, e.nativeEvent.text)}}>
+          <View style={{ ...styles.card, backgroundColor: colors.cardProduct }}>
+            <View style={{ padding: 5 }}>
+              <TextInput
+                onEndEditing={e => {
+                  onRename(card.id, e.nativeEvent.text)
+                }}
+              >
                 <AppText>{card.name}</AppText>
               </TextInput>
-              <AppText style={{color: colors.date}}>
+              <AppText style={{ color: colors.date }}>
                 {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
               </AppText>
+            </View>
+            <View>
+              <AppNum>{total} ₴</AppNum>
+            </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    </Swipeable>
-  )
+        </TouchableOpacity>
+      </Swipeable>
+    )
+  }
 
   if (loading) {
     return (
@@ -122,7 +141,9 @@ export const MainScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background, marginTop: 10 }}>
+    <View
+      style={{ flex: 1, backgroundColor: colors.background, marginTop: 10 }}
+    >
       {cards.length ? (
         <FlatList
           data={cards}
@@ -131,7 +152,8 @@ export const MainScreen = ({ navigation }) => {
             <View
               style={{
                 backgroundColor: colors.separator,
-                height: StyleSheet.hairlineWidth
+                height: 1,
+                width: '70%'
               }}
             />
           )}
@@ -162,6 +184,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 10,
     fontSize: 18
+  },
+
+  card: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 5,
+    paddingRight: 5
   },
 
   action: {

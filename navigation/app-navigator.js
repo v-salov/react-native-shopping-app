@@ -36,7 +36,6 @@ export default function() {
           ...getTheme(isDark)
         }
       }
-      console.log(theme)
   const configOptions = {
     headerTitleStyle: {
       fontFamily: 'roboto-bold',

@@ -10,10 +10,13 @@ export async function loadResourcesAsync() {
       // We include SpaceMono because we use it in main-screen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-      'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf'),
-      'roboto-black': require('./assets/fonts/Roboto-Black.ttf'),
-      'roboto-light': require('./assets/fonts/Roboto-Light.ttf'),
-      'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+      'roboto-bold': require('./assets/fonts/RobotoCondensed-Bold.ttf'),
+      'roboto-italic': require('./assets/fonts/RobotoCondensed-Italic.ttf'),
+      'roboto-light': require('./assets/fonts/RobotoCondensed-Light.ttf'),
+      'roboto-regular': require('./assets/fonts/RobotoCondensed-Regular.ttf'),
+      'eczar-regular': require('./assets/fonts/Eczar-Regular.ttf'),
+      'eczar-bold': require('./assets/fonts/Eczar-Bold.ttf'),
+      'eczar-medium': require('./assets/fonts/Eczar-Medium.ttf')
     }),
   ]);
 }

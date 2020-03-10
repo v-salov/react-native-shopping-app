@@ -13,7 +13,7 @@ import {
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import { editProductInCard } from "../store/actions/cardProduct"
-import { AppText } from "../components/ui/app-text"
+import { AppText } from "../components/ui/text/app-text"
 import Colors from "../constants/colors"
 import { AppButton } from "../components/ui/app-button"
 import { AppContainer } from "../components/ui/app-container"
@@ -30,7 +30,7 @@ export const AddProductScreen = ({ navigation, route }) => {
   const save = () => {
     const cardProduct = {
       idCard,
-      name: product.name,
+      idProduct: product.id,
       measure: product.measure,
       count,
       price,

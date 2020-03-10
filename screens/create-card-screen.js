@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import {AppInput, AppText, AppTextInput} from "../components/ui";
 import {AppButton} from "../components/ui/app-button";
-//import { addCard, editCard } from '../store/actions/card'
+import { createCard, editCard } from '../store/actions/card'
 import {useTheme} from '@react-navigation/native'
 
 export const CreateCardScreen = ({ navigation, route }) => {
@@ -25,8 +25,8 @@ const [name, setName] = useState('')
       name,
       date: new Date()
     }
-    dispatch(addCard(card))
-    navigation.replace('CreateProduct', { id: card.id })
+    dispatch(createCard(card))
+    navigation.replace('AddProduct', {idCard: card.id})
   }
 
   return (

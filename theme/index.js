@@ -26,7 +26,11 @@ const materialPalette = {
   palette04: '#018786',
   palette05: '#121212',
   palette06: '#B00020',
-  palette07: '#FFFBE6'
+  palette07: '#FFFBE6',
+  palette08: '#33333C',
+  palette09: '#37373F',
+  palette10: '#41414A',
+  palette11: '#8D8D92'
 
 }
 export const colors = {
@@ -35,7 +39,7 @@ export const colors = {
 export const themedColors = {
   background: {
     light: materialPalette.palette07,
-    dark: materialPalette.palette05
+    dark: materialPalette.palette08
   },
 
   primary: {
@@ -53,7 +57,7 @@ export const themedColors = {
   },
   separator: {
     light: palette.palette05,
-    dark: palette.palette05
+    dark: materialPalette.palette08
   },
   date: {
     light: palette.palette12,
@@ -69,7 +73,7 @@ export const themedColors = {
   },
   cardProduct: {
     light: palette.palette01,
-    dark: palette.palette08
+    dark: materialPalette.palette09
   },
 
 }

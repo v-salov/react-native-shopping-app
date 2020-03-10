@@ -12,6 +12,7 @@ export const editProductInCard = (product) => dispatch => {
       ...product,
       id: idGenerator()
     }
+    console.log('editProductInCard product',product)
     dispatch({
       type: ADD_PRODUCT_TO_CARD,
       payload: product

@@ -20,7 +20,7 @@ export const AppText = props => {
 const styles = StyleSheet.create({
   default: {
     fontFamily: 'roboto-regular',
-    fontSize: 17,
-    textAlign: 'center'
+    fontSize: 18,
+    textAlign: 'center',
   }
 })

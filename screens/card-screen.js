@@ -20,7 +20,7 @@ import {
   editProductInCard,
   removeProductFromCard
 } from '../store/actions/cardProduct'
-import { AppText, AppTextBold, AppTextInput } from '../components/ui'
+import {AppNum, AppNumInput, AppText, AppTextBold, AppTextInput} from '../components/ui'
 
 export const CardScreen = ({ navigation, route }) => {
   const { colors } = useTheme()
@@ -95,7 +95,7 @@ export const CardScreen = ({ navigation, route }) => {
             selectedValue={selectedValue}
             style={[
               {
-                width: '40%',
+                width: '45%',
                 backgroundColor: colors.cardProduct,
                 color: colors.text
               }
@@ -107,27 +107,33 @@ export const CardScreen = ({ navigation, route }) => {
               <Picker.Item label={p.name} value={p} key={p.id}></Picker.Item>
             ))}
           </Picker>
-          <AppTextInput
-            style={{backgroundColor: colors.cardProducts}}
-            keyboardType="numeric"
-            onEndEditing={e =>
-              onEditProduct(e.nativeEvent.text, product, 'count')
-            }
-          >
-            {product.count}
-          </AppTextInput>
-          <AppTextInput
-            style={{backgroundColor: colors.cardProducts}}
-            keyboardType="numeric"
-            onEndEditing={e =>
-              onEditProduct(e.nativeEvent.text, product, 'price')
-            }
-          >
-            {product.price}
-          </AppTextInput>
+          <View>
+            <AppNumInput
+              style={{backgroundColor: colors.cardProducts}}
+              keyboardType="numeric"
+              onEndEditing={e =>
+                onEditProduct(e.nativeEvent.text, product, 'count')
+              }
+            >
+              {product.count}
+            </AppNumInput>
+            <AppText>{product.measure}</AppText>
+          </View>
+          <View>
+            <AppNumInput
+              style={{backgroundColor: colors.cardProducts}}
+              keyboardType="numeric"
+              onEndEditing={e =>
+                onEditProduct(e.nativeEvent.text, product, 'price')
+              }
+            >
+              {product.price}
+            </AppNumInput>
+            <AppText>₴</AppText>
+          </View>
           <View style={{ justifyContent: 'center' }}>
-            <AppText>{product.price * product.count}</AppText>
-            <AppText>грн</AppText>
+            <AppNum>{product.price * product.count}</AppNum>
+            <AppText>₴</AppText>
           </View>
         </View>
       </Swipeable>
@@ -150,7 +156,7 @@ export const CardScreen = ({ navigation, route }) => {
             <View
               style={{
                 backgroundColor: colors.separator,
-                height: StyleSheet.hairlineWidth
+                height: 1
               }}
             />
           )}
@@ -163,11 +169,11 @@ export const CardScreen = ({ navigation, route }) => {
         onPress={() => navigation.navigate('AddProduct', { idCard: cardId })}
       />
       <View style={styles.totalPrice}>
-        <AppTextBold>
-          {cardProducts.reduce((total, item) => {
+        <AppNum style={{fontSize: 25}}>
+          Total: {cardProducts.reduce((total, item) => {
             return total + item.count * item.price
-          }, 0)}
-        </AppTextBold>
+          }, 0)} ₴
+        </AppNum>
       </View>
     </View>
   )
@@ -186,7 +192,8 @@ const styles = StyleSheet.create({
   product: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5
+    padding: 5,
+    borderRadius: 4
   },
   button: {
     borderWidth: 1,
