@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import {
   View,
   Text,
@@ -20,9 +20,17 @@ import {
   editProductInCard,
   removeProductFromCard
 } from '../store/actions/cardProduct'
-import {AppNum, AppNumInput, AppText, AppTextBold, AppTextInput} from '../components/ui'
+import {
+  AppNum,
+  AppNumInput,
+  AppText,
+  AppTextBold,
+  AppTextInput
+} from '../components'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export const CardScreen = ({ navigation, route }) => {
+  const sw = useRef(null);
   const { colors } = useTheme()
   const dispatch = useDispatch()
   const { cardId } = route.params
@@ -61,6 +69,8 @@ export const CardScreen = ({ navigation, route }) => {
     let newPr
     if (op === 'count') newPr = { ...product, count: +value }
     else if (op === 'price') newPr = { ...product, price: +value }
+    else if (op === 'done') newPr = { ...product, done: value }
+
     dispatch(editProductInCard(newPr))
   }
 
@@ -73,7 +83,15 @@ export const CardScreen = ({ navigation, route }) => {
     }
     dispatch(editProductInCard(newPr))
   }
-
+  const renderLeftActions = () => {
+    return (
+      <View ref={sw}
+      style={[styles.action, { backgroundColor: colors.primary }]}
+      >
+        <Ionicons name="ios-checkmark-circle-outline" size={32} color="white" />
+      </View>
+    )
+  }
   const renderRightActions = () => {
     return (
       <View style={[styles.action, { backgroundColor: colors.buttonDanger }]}>
@@ -86,11 +104,20 @@ export const CardScreen = ({ navigation, route }) => {
     const selectedValue = products.find(pr => pr.id === product.idProduct)
     return (
       <Swipeable
+        renderLeftActions={renderLeftActions}
         renderRightActions={renderRightActions}
+        onSwipeableLeftOpen={()=>{onEditProduct(!product.done, product, 'done')}}
         onSwipeableRightWillOpen={() => onRemoveProductFromCard(product.id)}
         overshootRight={false}
+        overshootLeft={false}
       >
-        <View style={[styles.product, { backgroundColor: colors.cardProduct }]}>
+        <View  style={[styles.product, { backgroundColor: colors.cardProduct }]}>
+          {product.done && <View
+            style={[
+              styles.dot,
+              { backgroundColor: colors.primary, borderColor: colors.primary }
+            ]}
+          ></View>}
           <Picker
             selectedValue={selectedValue}
             style={[
@@ -109,7 +136,7 @@ export const CardScreen = ({ navigation, route }) => {
           </Picker>
           <View>
             <AppNumInput
-              style={{backgroundColor: colors.cardProducts}}
+              style={{ backgroundColor: colors.cardProducts }}
               keyboardType="numeric"
               onEndEditing={e =>
                 onEditProduct(e.nativeEvent.text, product, 'count')
@@ -121,7 +148,7 @@ export const CardScreen = ({ navigation, route }) => {
           </View>
           <View>
             <AppNumInput
-              style={{backgroundColor: colors.cardProducts}}
+              style={{ backgroundColor: colors.cardProducts }}
               keyboardType="numeric"
               onEndEditing={e =>
                 onEditProduct(e.nativeEvent.text, product, 'price')
@@ -169,10 +196,12 @@ export const CardScreen = ({ navigation, route }) => {
         onPress={() => navigation.navigate('AddProduct', { idCard: cardId })}
       />
       <View style={styles.totalPrice}>
-        <AppNum style={{fontSize: 25}}>
-          Total: {cardProducts.reduce((total, item) => {
+        <AppNum style={{ fontSize: 25 }}>
+          Total:{' '}
+          {cardProducts.reduce((total, item) => {
             return total + item.count * item.price
-          }, 0)} ₴
+          }, 0)}{' '}
+          ₴
         </AppNum>
       </View>
     </View>
@@ -193,7 +222,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 5,
+    paddingLeft: 10,
     borderRadius: 4
+  },
+  dot: {
+    position: 'absolute',
+    top: '50%',
+    width: 10,
+    height: 10,
+    borderWidth: 1,
+    borderRadius: 50,
+    zIndex: 1
   },
   button: {
     borderWidth: 1,

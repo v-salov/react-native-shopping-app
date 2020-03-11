@@ -10,7 +10,7 @@ import {
   Keyboard
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import {AppInput, AppText, AppTextInput} from "../components/ui";
+import {AppInput, AppText, AppTextInput} from "../components";
 import {AppButton} from "../components/ui/app-button";
 import { createCard, editCard } from '../store/actions/card'
 import {useTheme} from '@react-navigation/native'

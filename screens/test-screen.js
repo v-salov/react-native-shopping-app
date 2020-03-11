@@ -1,31 +1,42 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Alert, Switch } from 'react-native'
-import { AppButton } from '../components/ui/app-button'
-import { useTheme } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleTheme } from '../store/actions/theme'
+import { View, StyleSheet } from 'react-native'
+
+import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
 export default ({ navigation }) => {
-  const dispatch = useDispatch()
-  const isDark = useSelector(state => state.theme.isDark)
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Switch
-          value={isDark}
-          onValueChange={value => dispatch(toggleTheme(value))}
-        />
-      )
-    })
-  }, [isDark])
-  const { colors } = useTheme()
   return (
-    <View
-  style={{
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: colors.background
-  }}
-  />
+    <View style={styles.container}>
+      <AnimatedCircularProgress
+        size={50}
+        width={10}
+        fill={100}
+        tintColor="#00e0ff"
+        onAnimationComplete={() => console.log('onAnimationComplete')}
+        backgroundColor="#3d5875"
+      />
+    </View>
   )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
+
+{
+  /* <CircularProgress
+        percent={0}
+        radius={100}
+        bgRingWidth={10}
+        progressRingWidth={20}
+        ringColor={'#3498db'}
+        ringBgColor={'grey'}
+        textFontSize={40}
+        clockwise={true}
+        bgColor={'white'}
+        startDegrees={0}
+      ></CircularProgress> */
 }

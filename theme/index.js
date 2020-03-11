@@ -43,8 +43,8 @@ export const themedColors = {
   },
 
   primary: {
-    light: palette.palette02,
-    dark: palette.palette01
+    light: materialPalette.palette04,
+    dark: materialPalette.palette04
   },
 
   primaryText: {

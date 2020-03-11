@@ -15,23 +15,22 @@ import {
 import { useTheme } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import { toggleTheme } from '../store/actions/theme'
-import { AppButtonPlus } from '../components/ui/app-button-plus'
+import {AnimatedCircularProgress} from 'react-native-circular-progress'
+import moment from 'moment'
 
+import { toggleTheme } from '../store/actions/theme'
+import { AppButtonPlus, AppNum, AppText  } from '../components/'
 import { renameCard, removeCard } from '../store/actions/card'
 import { removeCardProductById } from '../store/actions/cardProduct'
-
-import moment from 'moment'
-import { AppNum, AppText } from '../components/ui'
-import { LinearGradient } from 'expo-linear-gradient'
 
 export const MainScreen = ({ navigation }) => {
   const loading = useSelector(state => state.product.loading)
   const dispatch = useDispatch()
   const { colors } = useTheme()
   const cards = useSelector(state => state.card.cards)
-  const cardProducts =useSelector(state=> state.cardProduct.cardProducts)
+  const cardProducts = useSelector(state => state.cardProduct.cardProducts)
   const isDark = useSelector(state => state.theme.isDark)
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -42,6 +41,7 @@ export const MainScreen = ({ navigation }) => {
       )
     })
   }, [isDark])
+  
   const openCardHandler = card => {
     navigation.navigate('Card', {
       cardId: card.id,
@@ -91,23 +91,25 @@ export const MainScreen = ({ navigation }) => {
   }
 
   const CardItem = ({ card }) => {
+    
     const cardP = cardProducts.filter(cp => cp.idCard === card.id)
+    const countDode = cardP.filter(cp=>cp.done).length
+    console.log('countDone',countDode)
+    const percent = countDode/cardP.length * 100
+    console.log('percent', percent)
 
     const total = cardP.reduce((t, item) => {
       return t + item.price * item.count
     }, 0)
-    console.log(card)
     return (
       <Swipeable
-        renderLeftActions={handlerLeftActions}
         renderRightActions={handlerRightActions}
-        onSwipeableLeftWillOpen={() => onRemoveCard(card.id)}
         onSwipeableRightWillOpen={() => onRemoveCard(card.id)}
         overshootLeft={false}
         overshootRight={false}
       >
         <TouchableOpacity
-          activeOpacity={1}
+          activeOpacity={0.7}
           onPress={() => openCardHandler(card)}
         >
           <View style={{ ...styles.card, backgroundColor: colors.cardProduct }}>
@@ -126,7 +128,18 @@ export const MainScreen = ({ navigation }) => {
             <View>
               <AppNum>{total} ₴</AppNum>
             </View>
+            <View>
+            <AnimatedCircularProgress
+              size={50}
+              width={10}
+              fill={percent}
+              tintColor="#00e0ff"
+              onAnimationComplete={() => console.log('onAnimationComplete')}
+              backgroundColor="#3d5875"
+            />
           </View>
+          </View>
+          
         </TouchableOpacity>
       </Swipeable>
     )
@@ -147,7 +160,7 @@ export const MainScreen = ({ navigation }) => {
       {cards.length ? (
         <FlatList
           data={cards}
-          keyExtractor={post => post.id.toString()}
+          keyExtractor={item => item.id}
           ItemSeparatorComponent={() => (
             <View
               style={{

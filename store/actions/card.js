@@ -7,7 +7,6 @@ import {
 } from "../types"
 
 export const renameCard = (id, name) => dispatch => {
-  console.log('CARD_ACTION_RENAME_CARD',id, name)
   dispatch({
     type: RENAME_CARD,
     id, name
