@@ -15,11 +15,11 @@ import {
 import { useTheme } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
-import {AnimatedCircularProgress} from 'react-native-circular-progress'
+import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import moment from 'moment'
 
 import { toggleTheme } from '../store/actions/theme'
-import { AppButtonPlus, AppNum, AppText  } from '../components/'
+import { AppButtonPlus, AppNum, AppText } from '../components/'
 import { renameCard, removeCard } from '../store/actions/card'
 import { removeCardProductById } from '../store/actions/cardProduct'
 
@@ -30,7 +30,7 @@ export const MainScreen = ({ navigation }) => {
   const cards = useSelector(state => state.card.cards)
   const cardProducts = useSelector(state => state.cardProduct.cardProducts)
   const isDark = useSelector(state => state.theme.isDark)
-  
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -41,7 +41,7 @@ export const MainScreen = ({ navigation }) => {
       )
     })
   }, [isDark])
-  
+
   const openCardHandler = card => {
     navigation.navigate('Card', {
       cardId: card.id,
@@ -91,12 +91,9 @@ export const MainScreen = ({ navigation }) => {
   }
 
   const CardItem = ({ card }) => {
-    
     const cardP = cardProducts.filter(cp => cp.idCard === card.id)
-    const countDode = cardP.filter(cp=>cp.done).length
-    console.log('countDone',countDode)
-    const percent = countDode/cardP.length * 100
-    console.log('percent', percent)
+    const countDone = cardP.filter(cp => cp.done).length
+    const percent = (countDone / cardP.length) * 100
 
     const total = cardP.reduce((t, item) => {
       return t + item.price * item.count
@@ -109,10 +106,11 @@ export const MainScreen = ({ navigation }) => {
         overshootRight={false}
       >
         <TouchableOpacity
-          activeOpacity={0.7}
+          activeOpacity={0.9}
           onPress={() => openCardHandler(card)}
         >
           <View style={{ ...styles.card, backgroundColor: colors.cardProduct }}>
+            
             <View style={{ padding: 5 }}>
               <TextInput
                 onEndEditing={e => {
@@ -125,21 +123,30 @@ export const MainScreen = ({ navigation }) => {
                 {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
               </AppText>
             </View>
+
             <View>
-              <AppNum>{total} ₴</AppNum>
+              <AppNum style={{ color: colors.date, fontSize: 25 }}>₴</AppNum>
+            </View>
+
+            <View>
+              <AppNum style={{fontSize:22}}>{total}</AppNum>
             </View>
             <View>
-            <AnimatedCircularProgress
-              size={50}
-              width={10}
-              fill={percent}
-              tintColor="#00e0ff"
-              onAnimationComplete={() => console.log('onAnimationComplete')}
-              backgroundColor="#3d5875"
-            />
+              <AnimatedCircularProgress
+                size={60}
+                width={10}
+                fill={percent}
+                tintColor="#00e0ff"
+                backgroundColor="#3d5875"
+              >
+                {() => (
+                  <AppNum style={{ color: colors.text, fontSize: 16 }}>
+                    {10}/{25}
+                  </AppNum>
+                )}
+              </AnimatedCircularProgress>
+            </View>
           </View>
-          </View>
-          
         </TouchableOpacity>
       </Swipeable>
     )

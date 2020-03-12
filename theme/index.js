@@ -30,15 +30,16 @@ const materialPalette = {
   palette08: '#33333C',
   palette09: '#37373F',
   palette10: '#41414A',
-  palette11: '#8D8D92'
-
+  palette11: '#8D8D92',
+  palette12: '#00695C',
+  palette13: '#004D40',
 }
 export const colors = {
   separatorColor: palette.palette04
 }
 export const themedColors = {
   background: {
-    light: materialPalette.palette07,
+    light: palette.palette01,
     dark: materialPalette.palette08
   },
 
@@ -64,8 +65,8 @@ export const themedColors = {
     dark: palette.palette07
   },
   button: {
-    light: palette.palette14,
-    dark: palette.palette03
+    light: materialPalette.palette13,
+    dark: materialPalette.palette12
   },
   buttonDanger: {
     light: palette.palette16,

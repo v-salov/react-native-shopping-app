@@ -1,19 +1,44 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
-
-import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import { View, StyleSheet, Text,  } from 'react-native'
+import {
+  TextField,
+  FilledTextField,
+  OutlinedTextField
+} from 'react-native-material-textfield'
+import { RaisedTextButton, TextButton } from 'react-native-material-buttons'
+import { useTheme } from '@react-navigation/native'
+import {AppTextInput} from '../components'
 
 export default ({ navigation }) => {
+  const { colors } = useTheme()
+  const [text, setText] = useState('222222')
+  const formatText = (text) => {
+    return text.replace(/[^.\d]/g, '');
+  }
   return (
     <View style={styles.container}>
-      <AnimatedCircularProgress
-        size={50}
-        width={10}
-        fill={100}
-        tintColor="#00e0ff"
-        onAnimationComplete={() => console.log('onAnimationComplete')}
-        backgroundColor="#3d5875"
-      />
+      {/* <View style={{ width: '50%' }}>
+        <TextField
+          keyboardType="phone-pad"
+          value={text}
+          onChangeText={setText}
+          textColor={colors.text}
+        />
+      </View> */}
+        
+      <View>
+      <AppTextInput value={text} onChangeText={setText}/>
+
+      
+      </View>
+
+      <View>
+        <RaisedTextButton
+          title="touch"
+          onPress={() => console.log(2222)}
+          color="grey"
+        />
+      </View>
     </View>
   )
 }
@@ -25,18 +50,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
-
-{
-  /* <CircularProgress
-        percent={0}
-        radius={100}
-        bgRingWidth={10}
-        progressRingWidth={20}
-        ringColor={'#3498db'}
-        ringBgColor={'grey'}
-        textFontSize={40}
-        clockwise={true}
-        bgColor={'white'}
-        startDegrees={0}
-      ></CircularProgress> */
-}
