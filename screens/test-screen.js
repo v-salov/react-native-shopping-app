@@ -1,52 +1,26 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, Text,  } from 'react-native'
-import {
-  TextField,
-  FilledTextField,
-  OutlinedTextField
-} from 'react-native-material-textfield'
-import { RaisedTextButton, TextButton } from 'react-native-material-buttons'
-import { useTheme } from '@react-navigation/native'
-import {AppTextInput} from '../components'
-
+import React, {useState, useRef} from 'react'
+import { Text, View, TextInput, Button, Alert } from 'react-native'
+import { useForm } from 'react-hook-form'
+import { AppTextInput } from '../components'
 export default ({ navigation }) => {
-  const { colors } = useTheme()
-  const [text, setText] = useState('222222')
-  const formatText = (text) => {
-    return text.replace(/[^.\d]/g, '');
+  const { register, setValue, handleSubmit, errors } = useForm()
+  const [text, setText] = useState('')
+const value = useRef()
+  const onEdit = e => {
+    console.log(value.current)
   }
+  
   return (
-    <View style={styles.container}>
-      {/* <View style={{ width: '50%' }}>
-        <TextField
-          keyboardType="phone-pad"
-          value={text}
-          onChangeText={setText}
-          textColor={colors.text}
-        />
-      </View> */}
+    <View>
+      <AppTextInput
+        ref={value}
+        onChangeText={onEdit}
         
-      <View>
-      <AppTextInput value={text} onChangeText={setText}/>
-
-      
-      </View>
-
-      <View>
-        <RaisedTextButton
-          title="touch"
-          onPress={() => console.log(2222)}
-          color="grey"
-        />
-      </View>
+        style={{
+          borderWidth: text.length<3 ? 1 : 0,
+          borderBottomColor: text.length<3 ? 'red' : 'black'
+        }}
+      />
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
