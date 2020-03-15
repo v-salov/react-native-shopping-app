@@ -30,7 +30,6 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export const CardScreen = ({ navigation, route }) => {
-  const sw = useRef(null);
   const { colors } = useTheme()
   const dispatch = useDispatch()
   const { cardId } = route.params
@@ -85,7 +84,7 @@ export const CardScreen = ({ navigation, route }) => {
   }
   const renderLeftActions = () => {
     return (
-      <View ref={sw}
+      <View
       style={[styles.action, { backgroundColor: colors.primary }]}
       >
         <Ionicons name="ios-checkmark-circle-outline" size={32} color="white" />
@@ -228,6 +227,7 @@ const styles = StyleSheet.create({
   dot: {
     position: 'absolute',
     top: '50%',
+    left: 5,
     width: 10,
     height: 10,
     borderWidth: 1,

@@ -4,8 +4,8 @@ const palette = {
   palette03: '#ff8200',
   palette04: '#444242',
   palette05: '#4C4C4C',
-  palette06: '#333434',
-  palette07: '#696969',
+  palette06: 'rgba(51,52,52,0.63)',
+  palette07: 'rgba(105,105,105,0.58)',
   palette08: '#151515',
   palette09: '#222222',
   palette10: '#0F0F0F',
@@ -17,7 +17,10 @@ const palette = {
   palette16: '#F61F4D',
   palette17: '#37966F',
   palette18: '#FFFBE6',
-
+  palette19: 'rgba(66,66,80,0.51)',
+  palette20: '#6A6A7A',
+  palette21: '#8D8D93',
+  palette22: '#41414B',
 }
 const materialPalette = {
   palette01: '#BB86FC',
@@ -42,6 +45,14 @@ export const themedColors = {
     light: palette.palette01,
     dark: materialPalette.palette08
   },
+  backgroundInput: {
+    light: "transparent",
+    dark: palette.palette19
+  },
+  textInput: {
+    light: palette.palette06,
+    dark: palette.palette21
+  },
 
   primary: {
     light: materialPalette.palette04,
@@ -57,7 +68,7 @@ export const themedColors = {
     dark: palette.palette02
   },
   separator: {
-    light: palette.palette05,
+    light: palette.palette07,
     dark: materialPalette.palette08
   },
   date: {
@@ -68,6 +79,10 @@ export const themedColors = {
     light: materialPalette.palette13,
     dark: materialPalette.palette12
   },
+  buttonTextDisabled: {
+    light: materialPalette.palette13,
+    dark: palette.palette04
+  },
   buttonDanger: {
     light: palette.palette16,
     dark: materialPalette.palette06
@@ -76,6 +91,11 @@ export const themedColors = {
     light: palette.palette01,
     dark: materialPalette.palette09
   },
+  border: {
+    light: palette.palette14,
+    dark: palette.palette14
+  }
+
 
 }
 export const getTheme = value => {

@@ -34,10 +34,15 @@ export const MainScreen = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Switch
-          value={isDark}
-          onValueChange={value => dispatch(toggleTheme(value))}
-        />
+        <View style={{marginRight: 15}}
+          onStartShouldSetResponder={() => dispatch(toggleTheme(!isDark))}
+        >
+          {isDark ? (
+            <Ionicons color="white" name="ios-sunny" size={24} />
+          ) : (
+            <Ionicons color="black" name="ios-moon" size={24} />
+          )}
+        </View>
       )
     })
   }, [isDark])
@@ -110,8 +115,8 @@ export const MainScreen = ({ navigation }) => {
           onPress={() => openCardHandler(card)}
         >
           <View style={{ ...styles.card, backgroundColor: colors.cardProduct }}>
-            
-            <View style={{ padding: 5 }}>
+
+            <View style={{ padding: 5, width: "50%", alignItems: 'flex-start' }}>
               <TextInput
                 onEndEditing={e => {
                   onRename(card.id, e.nativeEvent.text)
@@ -173,7 +178,7 @@ export const MainScreen = ({ navigation }) => {
               style={{
                 backgroundColor: colors.separator,
                 height: 1,
-                width: '70%'
+
               }}
             />
           )}

@@ -1,24 +1,18 @@
+import { useTheme } from '@react-navigation/native'
 import React, { useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  Button,
-  ScrollView,
-  TouchableWithoutFeedback,
-  Keyboard
-} from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import {AppInput, AppText, AppTextInput} from "../components";
-import {AppButton} from "../components/ui/app-button";
-import { createCard, editCard } from '../store/actions/card'
-import {useTheme} from '@react-navigation/native'
+import { StyleSheet, View } from 'react-native'
+import { TextField } from 'react-native-material-textfield'
+import { RaisedButton, Button, TextButton } from 'react-native-material-buttons'
+import { useDispatch } from 'react-redux'
+import { AppText, AppTextInput } from '../components'
+import { AppButton } from '../components/ui/app-button'
+import { createCard } from '../store/actions/card'
 
 export const CreateCardScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
-  const {colors} = useTheme()
-const [name, setName] = useState('')
+  const { colors } = useTheme()
+  const [name, setName] = useState('')
+
   const saveHandler = () => {
     const card = {
       id: Math.random().toString(),
@@ -26,43 +20,29 @@ const [name, setName] = useState('')
       date: new Date()
     }
     dispatch(createCard(card))
-    navigation.replace('AddProduct', {idCard: card.id})
+    navigation.replace('AddProduct', { idCard: card.id })
   }
 
   return (
-    <ScrollView style={styles.wrapper}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={{paddingTop: 10}}>
-          <AppText>
-            Добавление покупки
-          </AppText>
-          <View
-            style={{
-              marginBottom: 10,
-
-            }}
-          >
-            <AppTextInput
-              placeholder="Введите название покупки"
-              value={name}
-              onChangeText={setName}
-
-            />
-          </View>
-          <AppButton
-            onPress={saveHandler}
-          >Создать</AppButton>
-        </View>
-      </TouchableWithoutFeedback>
-    </ScrollView>
+    <View style={styles.container}>
+      <AppText style={{ fontSize: 20 }}>Добавление покупки</AppText>
+      <TextField
+        label="Product"
+        value={name}
+        onChangeText={setName}
+        textColor={colors.text}
+        containerStyle={{ width: '100%' }}
+        baseColor={colors.textInput}
+      />
+      <AppButton disabled={name.length<3} onPress={saveHandler}>Ok</AppButton>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
-
-
-  name: {
-    padding: 10,
-    marginBottom: 10
+  container: {
+    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
