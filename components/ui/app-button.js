@@ -29,7 +29,6 @@ export const AppButton = p => {
 
 const styles = StyleSheet.create({
   button: {
-    width: '30%',
     borderWidth: 1,
     padding: 10,
     borderRadius: 5

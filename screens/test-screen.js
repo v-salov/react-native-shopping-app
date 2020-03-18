@@ -1,28 +1,59 @@
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  FlatList
+} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleTheme } from '../store/actions/theme'
 import { Ionicons } from '@expo/vector-icons'
+import { Dropdown } from 'react-native-material-dropdown'
+import { useTheme } from '@react-navigation/native'
+import { AppText } from '../components'
 
 export default ({ navigation }) => {
+  const { colors } = useTheme()
   const dispatch = useDispatch()
-  const isDark = useSelector(state => state.theme.isDark)
+  const products = useSelector(state=>state.product.products)
+  const cardProducts = useSelector(state=>state.cardProduct.cardProducts.filter(cp=>cp.idCard==='1'))
+console.log(cardProducts)
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View
-          onStartShouldSetResponder={() => dispatch(toggleTheme(!isDark))}
-        >
-          {isDark ? (
-            <Ionicons color="white" name="ios-sunny" size={24} />
-          ) : (
-            <Ionicons color="black" name="ios-moon" size={24} />
-          )}
-        </View>
-      )
-    })
-  }, [isDark])
+  const onSelected = id => {
+    console.log(id)
+  }
 
-  return <View></View>
+  const Item = ({ id, name, onSelect }) => {
+    return (
+      <TouchableOpacity onPress={() => onSelect(id)}>
+        <AppText>{name}</AppText>
+      </TouchableOpacity>
+    )
+  }
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.background
+      }}
+    >
+      <FlatList
+        data={cardProducts}
+        renderItem={({ item }) => (
+          <Item name={item.name} id={item.id} onSelect={onSelected} />
+        )}
+      />
+      <View>
+        <AppText>{}</AppText>
+      </View>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  button: {}
+})

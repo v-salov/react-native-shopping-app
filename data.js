@@ -34,15 +34,15 @@ export const products = [
 export const categories = [
   {
     id: '01',
-    name: 'Молочные продукты'
+    name: 'Молочные продукты',
   },
   {
     id: '02',
-    name: 'Алкоголь'
+    name: 'Алкоголь',
   },
   {
     id: '03',
-    name: 'Мясо, колбасы'
+    name: 'Мясо, колбасы',
   }
 ]
 
