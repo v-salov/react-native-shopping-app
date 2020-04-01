@@ -1,25 +1,51 @@
-import React, {useState} from "react"
+import React, { useState, useEffect } from 'react'
 
-import {Picker, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
-import {useDispatch, useSelector} from "react-redux"
-import {editProductInCard} from "../store/actions/cardProduct"
-import {AppText} from "../components/ui/text/app-text"
-import Colors from "../constants/colors"
-import {AppButton} from "../components/ui/app-button"
-import {AppContainer} from "../components/ui/app-container"
-import {AppNum, AppNumInput, AppTextInput} from "../components";
+import {
+  Picker,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { editProductInCard } from '../store/actions/cardProduct'
+import { AppText } from '../components/ui/text/app-text'
+import Colors from '../constants/colors'
+import { AppButton } from '../components/ui/app-button'
+import { AppContainer } from '../components/ui/app-container'
+import { AppNum, AppNumInput, AppTextInput } from '../components'
+import { changeId } from '../store/actions/product'
 
 export const AddProductScreen = ({ navigation, route }) => {
-  const { idCard } = route.params
   const dispatch = useDispatch()
+  const { idCard, id } = route.params
 
+  const idTemp = useSelector(state => state.product.idTemp)
   const products = useSelector(state => state.product.products)
-  const [product, setProduct] = useState(products[0])
-  const [count, setCount] = useState(1)
-  const [price, setPrice] = useState(product.price)
+  const cardProduct = useSelector(state =>
+    state.cardProduct.cardProducts.find(cp => cp.id === id)
+  )
+
+  const productItem = products.find(p => p.id === cardProduct?.idProduct)
+  const [product, setProduct] = useState(productItem || products[0])
+  const [count, setCount] = useState(cardProduct?.count || 1)
+  const [price, setPrice] = useState(cardProduct?.price || product.price)
+
+  useEffect(() => {
+    if (idTemp) {
+      const changeProduct = products.find(p => p.id === idTemp)
+      setProduct(changeProduct)
+      setPrice(changeProduct.price)
+    }
+    return () => {
+      if (!idTemp) dispatch(changeId(null))
+    }
+  }, [idTemp])
 
   const save = () => {
     const cardProduct = {
+      id,
       idCard,
       idProduct: product.id,
       measure: product.measure,
@@ -36,26 +62,22 @@ export const AddProductScreen = ({ navigation, route }) => {
       <AppText style={styles.title}>Добавление товара</AppText>
 
       <View style={styles.productContainer}>
-        <Picker
-          selectedValue={product}
-          onValueChange={p => setProduct(p)}
-          mode="dropdown"
-          style={{width: '80%', marginRight: 10}}
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Products', { products, idTemp: null })
+          }
+          style={{ width: '80%', marginRight: 10, borderWidth: 1 }}
         >
-          {products.map((pr, i) => (
-            <Picker.Item label={pr.name} value={pr} key={pr.id} />
-          ))}
-        </Picker>
+          <AppText>{product.name}</AppText>
+        </TouchableOpacity>
         <AppButton
-          style={{width: 40}}
-          onPress={() => navigation.navigate("CreateProduct")}
+          style={{ width: 40 }}
+          onPress={() => navigation.navigate('CreateProduct')}
         >
           <AppText>+</AppText>
         </AppButton>
-
-
       </View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <AppNumInput
           keyboardType="numeric"
           onChange={e => setCount(+e.nativeEvent.text || 1)}
@@ -66,7 +88,7 @@ export const AddProductScreen = ({ navigation, route }) => {
         <AppText>{product.measure} </AppText>
 
         <View
-          style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}
+          style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}
         >
           <AppTextInput
             keyboardType="numeric"
@@ -79,8 +101,7 @@ export const AddProductScreen = ({ navigation, route }) => {
         </View>
       </View>
 
-
-      <View style={{ alignSelf: "flex-start" }}>
+      <View style={{ alignSelf: 'flex-start' }}>
         <AppText>Цена за единицу: {price} грн.</AppText>
         <AppText>Общая сумма {price * count}</AppText>
       </View>
@@ -95,27 +116,26 @@ export const AddProductScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    alignItems: "flex-start"
+    alignItems: 'flex-start'
   },
   title: {
     fontSize: 20,
-    color: "#FFF",
-    textAlign: "center",
-    fontFamily: "roboto-regular",
+    color: '#FFF',
+    textAlign: 'center',
+    fontFamily: 'roboto-regular',
     marginVertical: 10
   },
 
   editProducts: {
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   productContainer: {
     width: '100%',
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
     marginBottom: 15
-  },
-
+  }
 })

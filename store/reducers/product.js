@@ -1,4 +1,4 @@
-import { CREATE_PRODUCT } from "../types"
+import {CHANGE_ID, CREATE_PRODUCT} from "../types"
 
 const initialState = {
   products: [
@@ -63,7 +63,7 @@ const initialState = {
     }
   ],
   loading: false,
-  tempProduct: null
+  idTemp: null
 }
 
 export const productReducer = (state = initialState, action) => {
@@ -72,6 +72,11 @@ export const productReducer = (state = initialState, action) => {
       return {
         ...state,
         products: [...state.products, action.payload]
+      }
+    case CHANGE_ID:
+      return {
+        ...state,
+        idTemp: action.payload
       }
     default:
       return state

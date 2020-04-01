@@ -194,7 +194,7 @@ export const MainScreen = ({ navigation }) => {
       ) : (
         <AppText style={styles.noItems}>Покупок пока нет</AppText>
       )}
-      <AppButtonPlus onPress={() => navigation.navigate('CreateCard')} />
+      <AppButtonPlus onPress={() => navigation.navigate('Create', {screen: 'CreateCard'})} />
     </View>
   )
 }

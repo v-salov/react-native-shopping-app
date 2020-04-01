@@ -1,15 +1,14 @@
-import React from "react"
-import { TextInput, Text, StyleSheet, Picker } from "react-native"
+import React, {useState} from "react"
+import { View,TouchableOpacity, StyleSheet } from "react-native"
 import Colors from "../../constants/colors"
+import {AppText} from "./text/app-text";
 
-export const AppPicker = props => {
+export const AppPicker = ({value, data, onChangeText, route, navigation}) => {
+  const [text, setText] = useState(value)
   return (
-    <Picker
-      style={[ styles.default, props.style ]}
-      {...props}
-    >
-      {props.children}
-    </Picker>
+    <TouchableOpacity onPress={()=>navigation.navigate('Products')}>
+      <AppText style={{textAlign: 'left'}}>{text}</AppText>
+    </TouchableOpacity>
   )
 }
 
