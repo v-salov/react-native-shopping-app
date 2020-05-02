@@ -1,14 +1,17 @@
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from '../theme'
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+// @ts-ignore
 import { TextField } from 'react-native-material-textfield'
-import { RaisedButton, Button, TextButton } from 'react-native-material-buttons'
 import { useDispatch } from 'react-redux'
-import { AppText, AppTextInput } from '../components'
+import { AppText } from '../components'
 import { AppButton } from '../components/ui/app-button'
 import { createCard } from '../store/actions/card'
+import { CreateNavProps } from '../navigation/params-lists'
 
-export const CreateCardScreen = ({ navigation, route }) => {
+export const CreateCardScreen = ({
+  navigation
+}: CreateNavProps<'CreateCard'>) => {
   const dispatch = useDispatch()
   const { colors } = useTheme()
   const [name, setName] = useState('')
@@ -34,7 +37,9 @@ export const CreateCardScreen = ({ navigation, route }) => {
         containerStyle={{ width: '100%' }}
         baseColor={colors.textInput}
       />
-      <AppButton disabled={name.length<3} onPress={saveHandler}>Ok</AppButton>
+      <AppButton disabled={name.length < 3} onPress={saveHandler}>
+        Ok
+      </AppButton>
     </View>
   )
 }

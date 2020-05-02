@@ -1,6 +1,14 @@
-import {CHANGE_ID, CREATE_PRODUCT} from "../types"
+import {ActionTypes, CategoryType, CHANGE_ID, CREATE_PRODUCT, MeasureType, ProductType} from "../types"
 
-const initialState = {
+type InitialStateType = {
+  products: Array<ProductType>,
+  categories: Array<CategoryType>,
+  measures: Array<MeasureType>,
+  loading: boolean,
+  idTemp: string | null
+}
+
+const initialState: InitialStateType = {
   products: [
     {
       id: "1",
@@ -66,7 +74,7 @@ const initialState = {
   idTemp: null
 }
 
-export const productReducer = (state = initialState, action) => {
+export const productReducer = (state = initialState, action: ActionTypes) => {
   switch (action.type) {
     case CREATE_PRODUCT:
       return {

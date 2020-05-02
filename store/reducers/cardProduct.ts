@@ -1,17 +1,22 @@
-import { cardProducts } from "../../data"
+import { cardProducts } from '../../data'
 import {
   ADD_PRODUCT_TO_CARD,
   REMOVE_PRODUCT_FROM_CARD,
   EDIT_PRODUCT_IN_CARD,
-  REMOVE_CARD_PRODUCT_BY_ID
-} from "../types"
+  REMOVE_CARD_PRODUCT_BY_ID, CardProductType, ActionTypes
+} from '../types'
 
-const initialState = {
+export type InitialStateType = {
+  cardProducts: Array<CardProductType>,
+  loading: boolean
+}
+
+const initialState: InitialStateType = {
   cardProducts,
   loading: false
 }
 
-export const cardProductReducer = (state = initialState, action) => {
+export const cardProductReducer = (state = initialState, action: ActionTypes) => {
   switch (action.type) {
     case ADD_PRODUCT_TO_CARD:
       return {
@@ -29,16 +34,18 @@ export const cardProductReducer = (state = initialState, action) => {
         })
       }
 
-      case REMOVE_PRODUCT_FROM_CARD:
+    case REMOVE_PRODUCT_FROM_CARD:
       return {
         ...state,
         cardProducts: state.cardProducts.filter(cp => cp.id !== action.payload)
       }
 
-      case REMOVE_CARD_PRODUCT_BY_ID:
+    case REMOVE_CARD_PRODUCT_BY_ID:
       return {
         ...state,
-        cardProducts: state.cardProducts.filter(cp => cp.idCard !== action.payload)
+        cardProducts: state.cardProducts.filter(
+          cp => cp.idCard !== action.payload
+        )
       }
 
     default:

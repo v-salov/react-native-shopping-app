@@ -1,6 +1,7 @@
 import idGenerate from './core/idGenerator'
+import {CardType, ProductType, CategoryType, MeasureType, CardProductType} from "./store/types";
 //const idGenerate = () => `f${(~~(Math.random()*1e8)).toString(16)}`
-export const products = [
+export const products: Array<ProductType> = [
   {
     id: '1',
     name: 'Кефир',
@@ -31,7 +32,7 @@ export const products = [
   }
 ]
 
-export const categories = [
+export const categories: Array<CategoryType> = [
   {
     id: '01',
     name: 'Молочные продукты',
@@ -46,7 +47,7 @@ export const categories = [
   }
 ]
 
-export const measures = [
+export const measures: Array<MeasureType> = [
   {
     id: 'm1',
     name: 'шт',
@@ -64,7 +65,7 @@ export const measures = [
   }
 ]
 
-export const cards = [
+export const cards: Array<CardType> = [
   {
     id: '1',
     name: 'TEST 1',
@@ -79,7 +80,7 @@ export const cards = [
   }
 ]
 
-export const cardProducts = [
+export const cardProducts: Array<CardProductType> = [
   {
     id: idGenerate(),
     idCard: '1',
@@ -122,11 +123,11 @@ export const cardProducts = [
   }
 ]
 
-export const getAsyncCards = () =>
-  new Promise((resolve, reject) => resolve(cards))
-export const getAsyncProducts = () =>
-  new Promise((resolve, reject) => resolve(products))
-export const getAsyncCategories = () =>
-  new Promise((resolve, reject) => resolve(categories))
-export const getAsyncMeasures = () =>
-  new Promise((resolve, reject) => resolve(measures))
+// export const getAsyncCards = () =>
+//   new Promise((resolve, reject) => resolve(cards))
+// export const getAsyncProducts = () =>
+//   new Promise((resolve, reject) => resolve(products))
+// export const getAsyncCategories = () =>
+//   new Promise((resolve, reject) => resolve(categories))
+// export const getAsyncMeasures = () =>
+//   new Promise((resolve, reject) => resolve(measures))

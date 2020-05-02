@@ -12,7 +12,7 @@ import {
   TextInput,
   Alert
 } from 'react-native'
-import { useTheme } from '@react-navigation/native'
+import { useTheme } from '../theme'
 import { Ionicons } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
@@ -22,32 +22,39 @@ import { toggleTheme } from '../store/actions/theme'
 import { AppButtonPlus, AppNum, AppText } from '../components/'
 import { renameCard, removeCard } from '../store/actions/card'
 import { removeCardProductById } from '../store/actions/cardProduct'
+import {RootState} from "../store";
+import {CardProductType, CardType} from "../store/types";
+import {MainNavProps} from "../navigation/params-lists";
 
-export const MainScreen = ({ navigation }) => {
-  const loading = useSelector(state => state.product.loading)
+type CardItemType = {
+  card: CardType
+}
+
+export const MainScreen = ({ navigation }: MainNavProps<'Home'>) => {
   const dispatch = useDispatch()
   const { colors } = useTheme()
-  const cards = useSelector(state => state.card.cards)
-  const cardProducts = useSelector(state => state.cardProduct.cardProducts)
-  const isDark = useSelector(state => state.theme.isDark)
+  const loading = useSelector<RootState>((state) => state.product.loading)
+  const cards = useSelector<RootState, Array<CardType>>((state) => state.card.cards)
+  const cardProducts = useSelector<RootState, CardProductType[]>(state => state.cardProduct.cardProducts)
+  const isDark = useSelector<RootState>(state => state.theme.isDark)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{marginRight: 15}}
-          onStartShouldSetResponder={() => dispatch(toggleTheme(!isDark))}
+        <TouchableOpacity style={{marginRight: 15}}
+          onPress={() => dispatch(toggleTheme(!isDark))}
         >
           {isDark ? (
             <Ionicons color="white" name="ios-sunny" size={24} />
           ) : (
             <Ionicons color="black" name="ios-moon" size={24} />
           )}
-        </View>
+        </TouchableOpacity>
       )
     })
   }, [isDark])
 
-  const openCardHandler = card => {
+  const openCardHandler = (card: CardType) => {
     navigation.navigate('Card', {
       cardId: card.id,
       name: card.name,
@@ -55,11 +62,11 @@ export const MainScreen = ({ navigation }) => {
     })
   }
 
-  const onRename = (id, name) => {
+  const onRename = (id: string, name: string) => {
     dispatch(renameCard(id, name))
   }
 
-  const onRemoveCard = id => {
+  const onRemoveCard = (id: string) => {
     Alert.alert(
       'Удаление карточки',
       'Вы действительно желаете удалить карточку?',
@@ -95,7 +102,8 @@ export const MainScreen = ({ navigation }) => {
     )
   }
 
-  const CardItem = ({ card }) => {
+  const CardItem = ({ card }: CardItemType) => {
+
     const cardP = cardProducts.filter(cp => cp.idCard === card.id)
     const countDone = cardP.filter(cp => cp.done).length
     const percent = (countDone / cardP.length) * 100
@@ -125,7 +133,7 @@ export const MainScreen = ({ navigation }) => {
                 <AppText>{card.name}</AppText>
               </TextInput>
               <AppText style={{ color: colors.date }}>
-                {moment(card.timestamp).format('DD.MM.YY, h:mm:ss')}
+                {moment(card.date).format('DD.MM.YY, h:mm:ss')}
               </AppText>
             </View>
 
@@ -178,16 +186,12 @@ export const MainScreen = ({ navigation }) => {
               style={{
                 backgroundColor: colors.separator,
                 height: 1,
-
               }}
             />
           )}
           renderItem={({ item }) => (
             <CardItem
               card={item}
-              onOpen={() => {
-                console.log(11)
-              }}
             />
           )}
         />

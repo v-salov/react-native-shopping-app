@@ -1,45 +1,42 @@
-import React, { useState } from "react"
-import {
-  View,
-  Text,
-  Button,
-  Picker,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity
-} from "react-native"
-import { useSelector, useDispatch } from "react-redux"
-import { AppContainer } from "../components/ui/app-container"
+import React, {useState} from 'react'
+import {Picker, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native'
+import {useDispatch, useSelector} from 'react-redux'
+import {AppContainer} from '../components/ui/app-container'
+import {createProduct} from '../store/actions/product'
+import Colors from '../constants/colors'
+import {CreateNavProps} from "../navigation/params-lists";
+import {RootState} from "../store";
+import {CategoryType, MeasureType} from "../store/types";
+import idGenerator from "../core/idGenerator";
 
-import { createProduct } from "../store/actions/product"
-import Colors from "../constants/colors"
-
-export const CreateProductScreen = ({ navigation }) => {
-  const measures = useSelector(state => state.product.measures)
-  const categories = useSelector(state => state.product.categories)
+export const CreateProductScreen = ({ navigation }: CreateNavProps<'CreateProduct'>) => {
+  const measures = useSelector<RootState, MeasureType[]>(state => state.product.measures)
+  const categories = useSelector<RootState, CategoryType[]>(state => state.product.categories)
   const dispatch = useDispatch()
-  const [name, setName] = useState("")
-  const [price, setPrice] = useState("")
+
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
   const [category, setCategory] = useState(categories[0])
   const [measure, setMeasure] = useState(measures[0])
 
   const save = () => {
-    const product ={
+    const product = {
+      id: idGenerator(),
       name,
       price: +price,
       category: category.name,
-      measure: measure.name,
+      measure: measure.name
     }
     dispatch(createProduct(product))
     navigation.goBack()
   }
 
   return (
-    <AppContainer style={{ alignItems: "center" }}>
+    <AppContainer style={{ alignItems: 'center' }}>
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           marginBottom: 10
         }}
       >
@@ -47,7 +44,7 @@ export const CreateProductScreen = ({ navigation }) => {
           placeholder="Введите название продукта"
           value={name}
           onChangeText={setName}
-          style={[styles.input, {flex: 1}]}
+          style={[styles.input, { flex: 1 }]}
         />
 
         <TextInput
@@ -55,14 +52,14 @@ export const CreateProductScreen = ({ navigation }) => {
           keyboardType="numeric"
           value={price}
           onChangeText={setPrice}
-          style={[styles.input, { width: "15%" }]}
+          style={[styles.input, { width: '15%' }]}
         />
       </View>
       <View
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           marginBottom: 10
         }}
       >
@@ -105,9 +102,9 @@ export const CreateProductScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   input: {
-    color: "#FFF",
+    color: '#FFF',
     backgroundColor: Colors.color2,
-    fontFamily: "roboto-regular",
+    fontFamily: 'roboto-regular',
     fontSize: 16,
     borderWidth: 1,
     borderBottomColor: Colors.color7,
@@ -118,23 +115,23 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   pickerText: {
-    fontFamily: "roboto-regular",
+    fontFamily: 'roboto-regular',
     fontSize: 16,
-    color: "#FFF"
+    color: '#FFF'
   },
   pickerMeasure: {
-    color: "#FFF",
+    color: '#FFF',
     backgroundColor: Colors.color4,
     width: 50
   },
   pickerCategory: {
-    color: "#FFF",
+    color: '#FFF',
     backgroundColor: Colors.color4,
     width: 200,
     marginRight: 10
   },
   button: {
-    width: "30%",
+    width: '30%',
     borderWidth: 1,
     borderColor: Colors.color4,
     backgroundColor: Colors.color5,
@@ -142,8 +139,8 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   buttonText: {
-    color: "white",
-    textTransform: "uppercase",
-    textAlign: "center"
+    color: 'white',
+    textTransform: 'uppercase',
+    textAlign: 'center'
   }
 })

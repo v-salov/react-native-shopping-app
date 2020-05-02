@@ -1,12 +1,18 @@
 import { cards } from "../../data"
-import { CREATE_CARD, REMOVE_CARD, EDIT_CARD, RENAME_CARD } from "../types"
+import { CREATE_CARD, REMOVE_CARD, EDIT_CARD, RENAME_CARD, CardType, ActionTypes } from "../types"
 
-const initialState = {
+
+export type InitialStateType = {
+  cards: Array<CardType>,
+  loading: boolean
+}
+
+const initialState : InitialStateType = {
   cards,
   loading: false
 }
 
-export const cardReducer = (state = initialState, action) => {
+export const cardReducer = (state = initialState, action: ActionTypes): InitialStateType => {
   switch (action.type) {
     case CREATE_CARD:
       return {

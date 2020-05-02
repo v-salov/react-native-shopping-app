@@ -11,10 +11,12 @@ import {
 } from "./bootstrap"
 import { store, persistor } from "./store"
 import { useTheme } from "@react-navigation/native"
+import {ThemeColorsType} from "./navigation/app-navigator";
 
-export default function App(props) {
+
+export default function App(props: { skipLoadingScreen: boolean }) {
   const { colors } = useTheme()
-  const [isLoadingComplete, setLoadingComplete] = useState(false)
+  const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false)
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return (
@@ -28,7 +30,7 @@ export default function App(props) {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <View style={{ flex: 1, backgroundColor: colors.backgroundColor }}>
+          <View style={{ flex: 1, backgroundColor: colors.background }}>
             <AppNavigator />
           </View>
         </PersistGate>
@@ -36,7 +38,3 @@ export default function App(props) {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {}
-})

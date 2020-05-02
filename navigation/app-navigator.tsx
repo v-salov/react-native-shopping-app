@@ -4,7 +4,11 @@ import {
   DefaultTheme,
   NavigationContainer
 } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import {
+  createStackNavigator,
+  StackNavigationProp,
+  StackNavigationOptions
+} from '@react-navigation/stack'
 import { AppearanceProvider } from 'react-native-appearance'
 import { useSelector } from 'react-redux'
 import { MainScreen } from '../screens/main-screen'
@@ -13,68 +17,43 @@ import { CreateCardScreen } from '../screens/create-card-screen'
 import { AddProductScreen } from '../screens/add-product-screen'
 import { CreateProductScreen } from '../screens/create-product-screen'
 import TestScreen from '../screens/test-screen'
-import { getTheme } from '../theme'
+import { useTheme } from '../theme'
 import { ProductsModal } from '../modals/products-modal'
+import { RootState } from '../store'
+import { CreateStackParamList, MainStackParamList } from './params-lists'
+import {Modal} from "../modals/modal";
 
-const MainStack = createStackNavigator()
-const CreateStack = createStackNavigator()
+const MainStack = createStackNavigator<MainStackParamList>()
+const CreateStack = createStackNavigator<CreateStackParamList>()
 const RootStack = createStackNavigator()
 
 export default function Nav() {
-  const isDark = useSelector(state => state.theme.isDark)
-
+  const { colors } = useTheme()
+  const isDark = useSelector((state: RootState) => state.theme.isDark)
   const theme = isDark
     ? {
         ...DarkTheme,
         colors: {
           ...DarkTheme.colors,
-          ...getTheme(isDark)
+          ...colors
         }
       }
     : {
         ...DefaultTheme,
         colors: {
           ...DefaultTheme.colors,
-          ...getTheme(isDark)
+          ...colors
         }
       }
-
-  const configOptions = {
-    headerTitleStyle: {
-      fontFamily: 'roboto-bold',
-      textAlign: 'center'
-    }
-  }
-
-  const screenOptions = {
+  const screenOptions: StackNavigationOptions = {
     headerStyle: {
       borderWidth: 1,
-      backgroundColor: theme.colors.background
+      backgroundColor: colors.background
     },
     headerTitleStyle: {
       fontFamily: 'roboto-bold'
     },
     headerTitleAlign: 'center'
-  }
-
-  const screenOptionsModal = {
-    cardStyle: { backgroundColor: 'transparent' },
-    cardOverlayEnabled: true,
-    cardStyleInterpolator: ({ current: { progress } }) => ({
-      cardStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 0.5, 0.9, 1],
-          outputRange: [0, 0.25, 0.7, 1]
-        })
-      },
-      overlayStyle: {
-        opacity: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, 0.75],
-          extrapolate: 'clamp'
-        })
-      }
-    })
   }
 
   const MainStackScreen = () => (
@@ -117,17 +96,18 @@ export default function Nav() {
       <CreateStack.Screen
         name="Products"
         component={ProductsModal}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
+
     </CreateStack.Navigator>
   )
 
   return (
-    <AppearanceProvider>
+
       <NavigationContainer theme={theme}>
         <RootStack.Navigator
           headerMode="none"
-          initialRouteName="Main"
+          initialRouteName="Test"
           screenOptions={screenOptions}
         >
           <RootStack.Screen
@@ -149,8 +129,15 @@ export default function Nav() {
               title: 'ТЕСТ'
             }}
           />
+          <RootStack.Screen
+            name="Modal"
+            component={Modal}
+            options={{
+              title: 'Модальное окно'
+            }}
+          />
         </RootStack.Navigator>
       </NavigationContainer>
-    </AppearanceProvider>
+
   )
 }

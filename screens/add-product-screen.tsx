@@ -1,30 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 
-import {
-  Picker,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
-import { editProductInCard } from '../store/actions/cardProduct'
-import { AppText } from '../components/ui/text/app-text'
-import Colors from '../constants/colors'
-import { AppButton } from '../components/ui/app-button'
-import { AppContainer } from '../components/ui/app-container'
-import { AppNum, AppNumInput, AppTextInput } from '../components'
-import { changeId } from '../store/actions/product'
+import {StyleSheet, Text, View} from 'react-native'
+import {useDispatch, useSelector} from 'react-redux'
+import {editProductInCard} from '../store/actions/cardProduct'
+import {AppText} from '../components/ui/text/app-text'
+import {AppButton} from '../components/ui/app-button'
+import {AppNumInput, AppTextInput} from '../components'
+import {changeId} from '../store/actions/product'
+import {CreateNavProps} from '../navigation/params-lists'
+import {RootState} from '../store'
+import {CardProductType, ProductType} from '../store/types'
+import {TouchableOpacity} from "react-native-gesture-handler";
 
-export const AddProductScreen = ({ navigation, route }) => {
+export const AddProductScreen = ({
+  navigation,
+  route
+}: CreateNavProps<'AddProduct'>) => {
   const dispatch = useDispatch()
   const { idCard, id } = route.params
-
-  const idTemp = useSelector(state => state.product.idTemp)
-  const products = useSelector(state => state.product.products)
-  const cardProduct = useSelector(state =>
-    state.cardProduct.cardProducts.find(cp => cp.id === id)
+  const idTemp = useSelector<RootState, string | null>(
+    state => state.product.idTemp
+  )
+  const products = useSelector<RootState, ProductType[]>(
+    state => state.product.products
+  )
+  const cardProduct = useSelector<RootState, CardProductType>(
+    state =>
+      state.cardProduct.cardProducts.find(cp => cp.id === id) as CardProductType
   )
 
   const productItem = products.find(p => p.id === cardProduct?.idProduct)
@@ -35,8 +37,10 @@ export const AddProductScreen = ({ navigation, route }) => {
   useEffect(() => {
     if (idTemp) {
       const changeProduct = products.find(p => p.id === idTemp)
-      setProduct(changeProduct)
-      setPrice(changeProduct.price)
+      if (changeProduct) {
+        setProduct(changeProduct)
+        setPrice(changeProduct.price)
+      }
     }
     return () => {
       if (!idTemp) dispatch(changeId(null))
@@ -59,19 +63,16 @@ export const AddProductScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <AppText style={styles.title}>Добавление товара</AppText>
-
       <View style={styles.productContainer}>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Products', { products, idTemp: null })
           }
-          style={{ width: '80%', marginRight: 10, borderWidth: 1 }}
         >
           <AppText>{product.name}</AppText>
         </TouchableOpacity>
         <AppButton
-          style={{ width: 40 }}
+          style={{ width: 45 }}
           onPress={() => navigation.navigate('CreateProduct')}
         >
           <AppText>+</AppText>
@@ -80,8 +81,7 @@ export const AddProductScreen = ({ navigation, route }) => {
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <AppNumInput
           keyboardType="numeric"
-          onChange={e => setCount(+e.nativeEvent.text || 1)}
-          style={styles.count}
+          onChange={(e: { nativeEvent: { text: string | number } }) => setCount(+e.nativeEvent.text || 1)}
         >
           {count}
         </AppNumInput>
@@ -92,12 +92,11 @@ export const AddProductScreen = ({ navigation, route }) => {
         >
           <AppTextInput
             keyboardType="numeric"
-            onChange={e => setPrice(+e.nativeEvent.text || 1)}
-            style={styles.text}
+            onChange={(e: { nativeEvent: { text: string | number } }) => setPrice(+e.nativeEvent.text || 1)}
           >
             {price}
           </AppTextInput>
-          <Text style={styles.text}> грн.</Text>
+          <Text> грн.</Text>
         </View>
       </View>
 

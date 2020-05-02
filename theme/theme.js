@@ -1,3 +1,5 @@
+import {ColorsType} from "./index";
+
 const palette = {
   palette01: '#EBECF4',
   palette02: '#000000',
@@ -20,7 +22,7 @@ const palette = {
   palette19: 'rgba(66,66,80,0.51)',
   palette20: '#6A6A7A',
   palette21: '#8D8D93',
-  palette22: '#41414B',
+  palette22: '#41414B'
 }
 const materialPalette = {
   palette01: '#BB86FC',
@@ -35,30 +37,26 @@ const materialPalette = {
   palette10: '#41414A',
   palette11: '#8D8D92',
   palette12: '#00695C',
-  palette13: '#004D40',
+  palette13: '#004D40'
 }
-export const colors = {
-  separatorColor: palette.palette04
-}
-export const themedColors = {
+
+const themedColors = {
   background: {
     light: palette.palette01,
     dark: materialPalette.palette08
   },
   backgroundInput: {
-    light: "transparent",
+    light: 'transparent',
     dark: palette.palette19
   },
   textInput: {
     light: palette.palette06,
     dark: palette.palette21
   },
-
   primary: {
     light: materialPalette.palette04,
     dark: materialPalette.palette04
   },
-
   primaryText: {
     light: palette.palette02,
     dark: palette.palette01
@@ -95,14 +93,52 @@ export const themedColors = {
     light: palette.palette14,
     dark: palette.palette14
   }
-
-
 }
-export const getTheme = value => {
-  const mode = value ? 'dark' : 'light'
-  let Theme = {}
-  for (let key in themedColors) {
-    Theme[key] = themedColors[key][mode]
+
+export const themes = [
+  {
+    dark: true,
+    colors: {
+      primary: '#018786',
+      background: '#33333C',
+      card: '#37373F',
+      cardProduct: '#37373F',
+      text: '#EBECF4',
+      border: '#2F97DD',
+      backgroundInput: 'rgba(66,66,80,0.51)',
+      textInput: '#8D8D93',
+      primaryBackground: '#000000',
+      date: 'rgba(105,105,105,0.58)',
+      button: 'rgba(51,52,52,0.63)',
+      buttonTextDisabled: '#444242',
+      buttonDanger: '#B00020',
+      separator: '#33333C'
+    }
+  },
+  {
+    dark: false,
+    colors: {
+      primary: '',
+      background: palette.palette01,
+      card: '',
+      cardProduct: '',
+      text: '',
+      border: '',
+      backgroundInput: '',
+      textInput: '',
+      primaryBackground: '',
+      date: '',
+      buttonTextDisabled: '',
+      button: '',
+      buttonDanger: '',
+      separator: ''
+    }
   }
-  return Theme
+]
+export const getColors = (mode) => {
+  let colors  = {}
+  for (let key in themedColors) {
+   colors[key] = themedColors[key][mode]
+  }
+  return colors
 }
